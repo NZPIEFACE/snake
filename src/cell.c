@@ -32,6 +32,12 @@ void setSnake(Cell* cell, int snake)
     return;
 }
 
+void addSnake(Cell* cell)
+{
+    cell->snake += 1;
+    return;
+}
+
 void resetSnake(Cell* cell)
 {
     cell->snake = 0;
@@ -95,16 +101,15 @@ Cell** initAllCell(Coord** coord, int height, int width)
     return all;
 }
 
-void freeAllCell(Cell*** all, int height, int width)
+void freeAllCell(Cell*** all)
 {
-    int index = height * width;
-
-    for (int i = 0; i < index; i++)
-    {
-        freeCell(all[i]);
-    }
-
+    for (; *all; ++all) freeCell(*all);
     all = NULL;
-
     return;
+}
+
+Cell* findCell(Cell** c, Coord* coord)
+{
+    for (; *c; ++c) if ((*c)->coord == coord) return *c;
+    return NULL;
 }

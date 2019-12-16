@@ -14,6 +14,9 @@ void freeCoord(Coord** coord);
 void printCoord(Coord* coord);
 
 Coord** initAllCoord(int height, int width);
-void freeAllCoord(Coord*** all, int height, int width);
+void freeAllCoord(Coord*** all);
+
+Coord* findCoord(Coord** coords, int row, int col);
+Coord* deltaCoord(Coord** coords, Coord* coord, int drow, int dcol);
 
 #endif

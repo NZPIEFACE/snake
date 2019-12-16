@@ -42,16 +42,25 @@ Coord** initAllCoord(int height, int width)
     return all;
 }
 
-void freeAllCoord(Coord*** all, int height, int width)
+void freeAllCoord(Coord*** all)
 {
-    int index = height * width;
-
-    for (int i = 0; i < index; i++)
-    {
-        freeCoord(all[i]);
-    }
-
+    for (; *all; ++all) freeCoord(*all);
     all = NULL;
-
     return;
+}
+
+Coord* findCoord(Coord** coords, int row, int col)
+{
+    for (; *coords; ++coords)
+        if ((*coords)->row == row && (*coords)->col == col)
+            return *coords;
+
+    return NULL;
+}
+
+Coord* deltaCoord(Coord** coords, Coord* coord, int drow, int dcol)
+{
+    int row = coord->row + drow;
+    int col = coord->col + dcol;
+    return findCoord(coords, row, col);
 }

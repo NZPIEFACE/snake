@@ -8,6 +8,7 @@ Snake* initSnake(Coord* coord)
 
     snake->length = 1;
     snake->head = coord;
+    snake->direction = 4;
 
     return snake;
 }
@@ -33,3 +34,10 @@ void setSnakeLength(Snake* snake, int length)
     snake->length = length;
     return;
 }
+
+void setSnakeDir(Snake* snake, int direction)
+{
+    snake->direction = direction;
+    return;
+}
+

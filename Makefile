@@ -6,7 +6,7 @@ LIBS = -lm
 TARGET=snake
 TG_W64=$(TARGET).exe
 
-source_files = main cell coord grid snake world
+source_files = main cell coord grid snake world game
 headers_only = 
 
 all_headers = $(source_files) $(headers_only)
