@@ -45,7 +45,8 @@ Coord** initAllCoord(int height, int width)
 void freeAllCoord(Coord*** all)
 {
     for (; *all; ++all) freeCoord(*all);
-    all = NULL;
+    free(*all);
+    *all = NULL;
     return;
 }
 

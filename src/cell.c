@@ -104,7 +104,8 @@ Cell** initAllCell(Coord** coord, int height, int width)
 void freeAllCell(Cell*** all)
 {
     for (; *all; ++all) freeCell(*all);
-    all = NULL;
+    free(*all);
+    *all = NULL;
     return;
 }
 
