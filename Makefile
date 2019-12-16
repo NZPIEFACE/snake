@@ -1,14 +1,15 @@
 CC = gcc
 EXE = x86_64-w64-mingw32-gcc
-CFLAGS = -g -Wall -Werror -Wpedantic -Iincludetest -std=c11 -Iinclude
+CFLAGS = -g -Wall -Werror -Wpedantic -std=c11 -Iinclude/
 LIBS = -lm
 
 TARGET=snake
 TG_W64=$(TARGET).exe
 
-_SRCS = main
-_HEAD = main
+source_files = main cell coord grid snake world
+headers_only = 
 
+all_headers = $(source_files) $(headers_only)
 
 RAW_DIR =
 SRC_NAME = src/
@@ -24,8 +25,8 @@ INC_DIR = $(RAW_DIR)$(INC_NAME)
 W64_DIR = $(OBJ_DIR)$(W64_NAME)
 GCC_DIR = $(OBJ_DIR)$(GCC_NAME)
 
-_OBJS = $(patsubst %, %.o, $(_SRCS))
-_DEPS = $(patsubst %, %.h, $(_SRCS))
+_OBJS = $(patsubst %, %.o, $(source_files))
+_DEPS = $(patsubst %, %.h, $(all_headers))
 
 DEPS = $(patsubst %, $(INC_DIR)%, $(_DEPS))
 OW64 = $(patsubst %, $(W64_DIR)%, $(_OBJS))
