@@ -19,6 +19,8 @@ int main(int argc, char* argv[])
     system("cls");
     srand(time(0));
 
+    intro();
+
     int height = DEFAULT;
     int width = DEFAULT;
 
@@ -36,8 +38,8 @@ int main(int argc, char* argv[])
         game(world);
         a = cont();
     }
-
-    getchar();
+    
+    outro();
     
     freeWorld(&world);
     freeSnake(&snake);

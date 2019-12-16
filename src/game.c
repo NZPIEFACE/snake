@@ -146,6 +146,7 @@ void game(World* w)
     loop(w);
 
     printf("You died.\n");
+    refresh();
 
     return;
 }
@@ -190,7 +191,7 @@ void frame(World* w)
 {
     printGrid(w->grid);
 
-    
+
 }
 
 int cont(void)
@@ -202,4 +203,20 @@ int cont(void)
     if (c == 'y') return 1;
     else if (c == 'n') return 0;
     else return cont();
+}
+
+void intro(void)
+{
+    system("cls");
+    puts("Welcome to this game of Snake.");
+    puts("I hope you enjoy!");
+    puts("Play the game using the WASD keys.");
+    refresh();
+}
+
+void outro(void)
+{
+    system("cls");
+    puts("Thank you for playing!");
+    refresh();
 }

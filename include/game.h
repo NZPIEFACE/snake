@@ -30,4 +30,7 @@ void frame(World* w);
 
 int cont(void);
 
+void intro(void);
+void outro(void);
+
 #endif
