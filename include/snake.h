@@ -1,22 +1,24 @@
+// Snake object (and related functions)
+    /* Only want to pass the Snake object from this file, really. 
+    */
+// Date: 27/05/2020
+// Author: NZPIEFACE
+
+// Changelog:
+/*
+*/
+
 #ifndef _SNAKE_H
 #define _SNAKE_H
 
-typedef struct Coord Coord;
+typedef struct Body {
+    
+} Body;
 
-typedef struct Snake
-{
-    int length;
-    Coord* head;
-    int direction;  // NSEW -> 1 4 2 3
-}
-Snake;
+typedef struct Snake {
 
-Snake* initSnake(Coord* coord);
-void freeSnake(Snake** snake);
+} Snake;
 
-void setSnakeHead(Snake* snake, Coord* coord);
-void setSnakeLength(Snake* snake, int length);
-void setSnakeDir(Snake* snake, int direction);
 
 
 #endif
