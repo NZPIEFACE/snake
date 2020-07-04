@@ -1,3 +1,11 @@
+// Coord object
+// Date: 04/07/2020
+// Author: NZPIEFACE
+
+// Changelog:
+/*  - Made the object.
+*/
+
 #ifndef COORD_H
 #define COORD_H
 

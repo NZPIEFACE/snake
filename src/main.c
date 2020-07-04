@@ -1,16 +1,17 @@
-#include "snake.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
+#include "snake.h"
+#include "render.h"
+#include "board.h"
+
 int main(void){
-    printf("Snake size: %ld\n", sizeof(Snake));
-    printf("Snake * size: %ld\n", sizeof(Snake *));
-    printf("SnakeBody size: %ld\n", sizeof(SnakeBody));
-    printf("SnakeBody * size: %ld\n", sizeof(SnakeBody *));
-    printf("Coord size: %ld\n", sizeof(Coord));
-    printf("Coord * size: %ld\n", sizeof(Coord *));
-    printf("int size: %ld\n", sizeof(int));
-    printf("int * size: %ld\n", sizeof(int *));
+    Board * b = init_board(10, 10);
+
+    render(b->grid, b->row, b->col);
+    
+    free_board(b);
+
     return 0;
 }
