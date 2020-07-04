@@ -2,6 +2,8 @@
 
  Snake in C. Seriously, that's basically it.
 
-## Issues
+## Things to work on
 
- Can't use gcc to compile this, and can only use mingw, and gcc doesn't FUCKING HAVE CONIO.H.
+- Engine
+
+- Rendering

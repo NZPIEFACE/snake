@@ -3,7 +3,7 @@ LIBS = -lm
 
 TARGET = snake
 
-_SRCS = main snake
+_SRCS = main snake coord
 _HEAD = 
 
 SRC_DIR = src/
