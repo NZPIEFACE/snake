@@ -3,7 +3,7 @@
 // Author: NZPIEFACE
 
 // Changelog:
-/*  - Made the object.
+/*  04/07/2020 - Made the object.
 */
 
 #ifndef COORD_H

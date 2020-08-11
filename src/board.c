@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include "board.h"
+#include "snake.h"
 
 Board * init_board(int row, int col){
     Board * board = malloc(sizeof(Board));

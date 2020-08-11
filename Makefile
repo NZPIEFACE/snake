@@ -3,7 +3,7 @@ LIBS = -lm
 
 TARGET = snake
 
-_SRCS = main snake render board
+_SRCS = main game render snake board 
 _HEAD = coord
 
 SRC_DIR = src/

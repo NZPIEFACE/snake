@@ -5,7 +5,7 @@
 // Author: NZPIEFACE
 
 // Changelog:
-/*  - Added Snake stuff.
+/*  27/05/2020 - Added Snake stuff.
 */
 
 #ifndef _SNAKE_H

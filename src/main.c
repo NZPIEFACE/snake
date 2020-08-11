@@ -2,9 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "snake.h"
+#include "game.h"
 #include "render.h"
-#include "board.h"
 
 int main(void){
     Board * b = init_board(10, 10);

@@ -4,7 +4,7 @@
 // Author: NZPIEFACE
 
 // Changelog:
-/*  - Created the board and init functions.
+/*  04/07/2020 - Created the board and init functions.
 */
 
 typedef struct Board {
