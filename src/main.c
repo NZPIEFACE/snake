@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "game.h"
+#include "board.h"
 #include "render.h"
 
 int main(void){
