@@ -6,11 +6,8 @@
 #include "render.h"
 
 int main(void){
-    Board * b = init_board(10, 10);
-
-    render(b->grid, b->row, b->col);
-    
-    free_board(b);
+    Coord c = coord_addition(UP, LEFT);
+    printf("%d, %d\n", c.x, c.y);
 
     return 0;
 }

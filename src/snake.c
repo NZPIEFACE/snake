@@ -1,5 +1,5 @@
-#include "snake.h"
 #include <stdlib.h>
+#include "snake.h"
 
 #define DEFAULT_LENGTH 2
 #define DEFAULT_HEAD {0, 0}

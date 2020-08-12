@@ -3,8 +3,8 @@ LIBS = -lm
 
 TARGET = snake
 
-_SRCS = main render snake board 
-_HEAD = coord
+_SRCS = main render snake board coord
+_HEAD = 
 
 SRC_DIR = src/
 INC_DIR = include/

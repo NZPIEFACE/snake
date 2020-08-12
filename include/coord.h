@@ -4,6 +4,8 @@
 
 // Changelog:
 /*  04/07/2020 - Made the object.
+    13/08/2020 - Added defaults.
+               - Coordinate arithmetic.
 */
 
 #ifndef COORD_H
@@ -13,5 +15,12 @@ typedef struct Coord {
     int x;
     int y;
 } Coord;
+
+Coord coord_addition(Coord a, Coord b);
+
+Coord UP;
+Coord DOWN;
+Coord LEFT;
+Coord RIGHT;
 
 #endif

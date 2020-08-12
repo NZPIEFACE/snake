@@ -14,6 +14,8 @@
 
 #include "snake.h"
 
+typedef struct Board Board;
+
 typedef struct Board {
     char ** grid;
     int row;
