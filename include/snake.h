@@ -7,6 +7,7 @@
 // Changelog:
 /*  27/05/2020 - Added Snake stuff.
     13/08/2002 - Made SnakeBody object private.
+               - Added methods next_position, tail_to_head and new_head.
 */
 
 #ifndef _SNAKE_H
@@ -18,11 +19,13 @@ typedef struct SnakeBody SnakeBody;
 
 typedef struct Snake {
     SnakeBody * head;
-    SnakeBody * tail;
+    //SnakeBody * tail;
     int length;
     Coord direction;
 
-    Coord * (* next_position)(Snake *);
+    Coord (* next_position)(Snake *);
+    SnakeBody * (* tail_to_head)(Snake *);  // returns new head
+    SnakeBody * (*new_head)(Snake *);
 } Snake;
 
 Snake * init_snake(void);
