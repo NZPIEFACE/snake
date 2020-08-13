@@ -7,6 +7,17 @@
 
 int main(void){
     Snake * snake = init_snake();
-    printf("%d\n", snake->direction.x);
+    printf("Direction: ");
+    print_coord(snake->direction);
+    snake->print_head_position(snake);
+
+    snake->tail_to_head(snake);
+    snake->print_head_position(snake);
+
+    snake->new_head(snake);
+    snake->print_head_position(snake);
+    printf("Length: %d\n", snake->length);
+
+    free_snake(snake);
     return 0;
 }

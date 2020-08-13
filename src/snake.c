@@ -8,7 +8,7 @@
 /*  27/05/2020 - Added Snake stuff.
     13/08/2020 - Made SnakeBody object private.
                - Made free_snake iterative.
-               - Added methods next_position, tail_to_head and new_head.
+               - Added methods.
                - Added SnakeBody linking.
 */
 
@@ -20,9 +20,9 @@
 #define DEFAULT_TAIL {0, 0}
 #define DEFAULT_DIRECTION DOWN
 
-// Private structure definitions
+// Private struct definitions
 typedef struct SnakeBody {
-    Coord position;
+    Coord position; // this line... it needs to be public to use print_coord in main.c
     SnakeBody * previous;
     SnakeBody * next;
 } SnakeBody;
@@ -35,6 +35,7 @@ SnakeBody * move_snake_tail_to_head(Snake * snake);
 SnakeBody * create_new_head(Snake * snake);
 SnakeBody * add_next_link(SnakeBody * this, SnakeBody * next);
 SnakeBody * add_previous_link(SnakeBody * this, SnakeBody * previous);
+void print_head_position(Snake * snake);
 
 // Function definitions
 Snake * init_snake(void){
@@ -56,6 +57,7 @@ Snake * init_snake(void){
     snake->next_position = &next_position;
     snake->tail_to_head = &move_snake_tail_to_head;
     snake->new_head = &create_new_head;
+    snake->print_head_position = &print_head_position;
 
     return snake;
 }
@@ -63,16 +65,16 @@ Snake * init_snake(void){
 void free_snake(Snake * snake){
     SnakeBody * now;
     SnakeBody * next;
-    now = snake->head;
+    now = snake->head->next;
     next = now->next;
 
-    while (next != NULL){
+    while (now != snake->head){
         free_body(now);
         now = next;
         next = next->next;
     }
 
-    //free_body(snake->tail);
+    free_body(snake->head);
     free(snake);
     return;
 }
@@ -97,11 +99,11 @@ Coord next_position(Snake * snake){
 }
 
 SnakeBody * move_snake_tail_to_head(Snake * snake){
+    // Calculate the new position
+    snake->head->previous->position = snake->next_position(snake);
+
     // Move the "tail" to the head.
     snake->head = snake->head->previous;
-
-    // Calculate the new position
-    snake->head->position = snake->next_position(snake);
 
     return snake->head;
 }
@@ -118,6 +120,9 @@ SnakeBody * create_new_head(Snake * snake){
     // Make the new head the current head
     snake->head = new_head;
 
+    // Increment snake length
+    snake->length++;
+
     return new_head;
 }
 
@@ -131,4 +136,9 @@ SnakeBody * add_previous_link(SnakeBody * this, SnakeBody * previous){
     this->previous = previous;
     previous->next = this;
     return this->previous;
+}
+
+void print_head_position(Snake * snake){
+    print_coord(snake->head->position);
+    return;
 }

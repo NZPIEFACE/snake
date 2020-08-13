@@ -27,6 +27,6 @@ int coord_eqs(Coord a, Coord b){
 }
 
 void print_coord(Coord a){
-    printf("x: %d\ny: %d\n", a.x, a.y);
+    printf("x: %d, y: %d\n", a.x, a.y);
     return;
 }
