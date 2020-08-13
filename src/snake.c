@@ -28,6 +28,7 @@ typedef struct SnakeBody {
 // Private functions/methods
 SnakeBody * init_body(Coord position);
 void free_body(SnakeBody * body);
+Coord next_position(Snake * snake);
 
 Snake * init_snake(void){
     Snake * snake = (Snake *)malloc(sizeof(Snake));
@@ -40,6 +41,8 @@ Snake * init_snake(void){
     snake->tail = init_body(tail);
 
     snake->direction = DEFAULT_DIRECTION;
+
+    snake->next_position = &next_position;
 
     return snake;
 }
@@ -73,4 +76,9 @@ SnakeBody * init_body(Coord position){
 void free_body(SnakeBody * body){
     free(body);
     return;
+}
+
+Coord next_position(Snake * snake){
+    Coord position = coord_add(snake->head->position, snake->direction);
+    return position;
 }

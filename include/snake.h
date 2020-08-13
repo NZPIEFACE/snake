@@ -21,6 +21,8 @@ typedef struct Snake {
     SnakeBody * tail;
     int length;
     Coord direction;
+
+    Coord * (* next_position)(Snake *);
 } Snake;
 
 Snake * init_snake(void);
