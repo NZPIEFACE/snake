@@ -6,6 +6,7 @@
 /*  04/07/2020 - Made the object.
     13/08/2020 - Added defaults.
                - Coordinate arithmetic.
+               - Added print_coord function.
 */
 
 #ifndef _COORD_H
@@ -18,6 +19,7 @@ typedef struct Coord {
 
 Coord coord_add(Coord a, Coord b);
 int coord_eqs(Coord a, Coord b);
+void print_coord(Coord a);
 
 Coord UP;
 Coord DOWN;

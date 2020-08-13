@@ -6,6 +6,7 @@
 /*  04/07/2020 - Made the object.
     13/08/2020 - Added defaults.
                - Coordinate arithmetic.
+               - Added print_coord function.
 */
 
 #include <stdio.h>
@@ -23,4 +24,9 @@ Coord coord_add(Coord a, Coord b){
 
 int coord_eqs(Coord a, Coord b){
     return (a.x == b.x) && (a.y == b.y);
+}
+
+void print_coord(Coord a){
+    printf("x: %d\ny: %d\n", a.x, a.y);
+    return;
 }
