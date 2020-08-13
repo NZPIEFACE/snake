@@ -16,7 +16,8 @@ typedef struct Coord {
     int y;
 } Coord;
 
-Coord coord_addition(Coord a, Coord b);
+Coord coord_add(Coord a, Coord b);
+int coord_eqs(Coord a, Coord b);
 
 Coord UP;
 Coord DOWN;
