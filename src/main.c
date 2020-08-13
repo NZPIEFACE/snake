@@ -6,8 +6,7 @@
 #include "render.h"
 
 int main(void){
-    Coord c = coord_addition(UP, LEFT);
-    printf("%d, %d\n", c.x, c.y);
-
+    Snake * snake = init_snake();
+    printf("%d\n", snake->direction.x);
     return 0;
 }

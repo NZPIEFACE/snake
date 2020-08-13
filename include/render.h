@@ -8,8 +8,8 @@
 /* 
 */
 
-#ifndef RENDER_H
-#define RENDER_H
+#ifndef _RENDER_H
+#define _RENDER_H
 
 void render(char ** grid, int row, int col);
 

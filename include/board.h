@@ -9,8 +9,8 @@
                - Added the snake object
 */
 
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef _BOARD_H
+#define _BOARD_H
 
 #include "snake.h"
 

@@ -8,8 +8,8 @@
                - Coordinate arithmetic.
 */
 
-#ifndef COORD_H
-#define COORD_H
+#ifndef _COORD_H
+#define _COORD_H
 
 typedef struct Coord {
     int x;

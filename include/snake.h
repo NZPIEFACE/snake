@@ -6,6 +6,7 @@
 
 // Changelog:
 /*  27/05/2020 - Added Snake stuff.
+    13/08/2002 - Made SnakeBody object private.
 */
 
 #ifndef _SNAKE_H
@@ -15,22 +16,14 @@
 
 typedef struct SnakeBody SnakeBody;
 
-typedef struct SnakeBody {
-    Coord position;
-    SnakeBody * previous;
-    SnakeBody * next;
-} SnakeBody;
-
 typedef struct Snake {
     SnakeBody * head;
     SnakeBody * tail;
     int length;
+    Coord direction;
 } Snake;
 
 Snake * init_snake(void);
 void    free_snake(Snake * snake);
-
-SnakeBody * init_body(Coord position);
-void        free_body(SnakeBody * body);
 
 #endif
