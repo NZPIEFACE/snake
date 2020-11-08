@@ -10,6 +10,7 @@
                - Made free_snake iterative.
                - Added methods.
                - Added SnakeBody linking.
+    09/11/2020 - Added populat_snake_coords.
 */
 
 #include <stdlib.h>
@@ -36,6 +37,8 @@ SnakeBody * create_new_head(Snake * snake);
 SnakeBody * add_next_link(SnakeBody * this, SnakeBody * next);
 SnakeBody * add_previous_link(SnakeBody * this, SnakeBody * previous);
 void print_head_position(Snake * snake);
+
+SnakeBody * grab_next_body(SnakeBody * this);
 
 // Function definitions
 Snake * init_snake(void){
@@ -141,4 +144,21 @@ SnakeBody * add_previous_link(SnakeBody * this, SnakeBody * previous){
 void print_head_position(Snake * snake){
     print_coord(snake->head->position);
     return;
+}
+
+// Returns the next body section
+SnakeBody * grab_next_body(SnakeBody * this){
+    return this->next;
+}
+
+// Returns a list of coordinates that the snake occupies.
+Coord_list * populate_snake_coords(Snake * snake, Coord_list * coord_list){
+    SnakeBody * this = snake->head;
+
+    for (int i = 0; i < snake->length; i++){
+        coord_list->list[i] = this->position;
+        this = this->next;
+    }
+
+    return coord_list;
 }

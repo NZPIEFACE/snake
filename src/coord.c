@@ -8,9 +8,11 @@
                - Coordinate arithmetic.
                - Added print_coord function.
     14/08/2020 - bounded_coords was added.
+    09/11/2020 - Added Coord_list functions.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "coord.h"
 
 Coord UP = {0, -1};
@@ -40,4 +42,18 @@ Coord coord_bound(Coord a, int row, int col){
 Coord coord_gen(int row, int col){
     Coord a = {row, col};
     return a;
+}
+
+Coord_list * init_coord_list(int length){
+    Coord_list * list = malloc(sizeof(Coord_list));
+    list->list = malloc(sizeof(Coord) * length);
+    list->length = length;
+
+    return list;
+}
+
+void free_coord_list(Coord_list * list){
+    free(list->list);
+    free(list);
+    return;
 }

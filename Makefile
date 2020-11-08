@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -Werror -Wextra -Wpedantic -std=c11 -Iinclude/
+CFLAGS = -g -Wall -Wextra -Wpedantic -std=c11 -Iinclude/
 LIBS = -lm
 
 TARGET = snake

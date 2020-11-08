@@ -6,8 +6,9 @@
 
 // Changelog:
 /*  27/05/2020 - Added Snake stuff.
-    13/08/2002 - Made SnakeBody object private.
+    13/08/2020 - Made SnakeBody object private.
                - Added methods.
+    09/11/2020 - Added populat_snake_coords.
 */
 
 #ifndef _SNAKE_H
@@ -32,5 +33,7 @@ typedef struct Snake {
 
 Snake * init_snake(void);
 void    free_snake(Snake * snake);
+
+Coord_list * populate_snake_coords(Snake * snake, Coord_list * coord_list);
 
 #endif

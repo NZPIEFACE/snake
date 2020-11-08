@@ -8,6 +8,7 @@
     12/08/2020 - Added header guards.
                - Added the snake object
     14/08/2020 - Food was added.
+    09/11/2020 - Added size.
 */
 
 #ifndef _BOARD_H
@@ -19,9 +20,10 @@
 typedef struct Board Board;
 
 typedef struct Board {
-    char ** grid;
+    char ** display_grid;
     int row;
     int col;
+    int size;
     Snake * snake;
     Coord food;
 

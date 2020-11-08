@@ -1,11 +1,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "board.h"
 #include "render.h"
 
 int main(void){
+    srand(time(0));
+
     Snake * snake = init_snake();
     printf("Direction: ");
     print_coord(snake->direction);
@@ -13,6 +16,7 @@ int main(void){
 
     snake->tail_to_head(snake);
     snake->print_head_position(snake);
+    printf("Length: %d\n", snake->length);
 
     snake->new_head(snake);
     snake->print_head_position(snake);
