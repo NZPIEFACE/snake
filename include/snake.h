@@ -29,11 +29,10 @@ typedef struct Snake {
     SnakeBody * (* tail_to_head)(Snake *);  // returns new head
     SnakeBody * (*new_head)(Snake *);
     void (* print_head_position)(Snake *);
+    Coord_list * (*coord_list)(Snake *, Coord_list *);
 } Snake;
 
 Snake * init_snake(void);
 void    free_snake(Snake * snake);
-
-Coord_list * populate_snake_coords(Snake * snake, Coord_list * coord_list);
 
 #endif

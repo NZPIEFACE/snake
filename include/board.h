@@ -9,6 +9,7 @@
                - Added the snake object
     14/08/2020 - Food was added.
     09/11/2020 - Added size.
+               - Added apply_to_grid.
 */
 
 #ifndef _BOARD_H
@@ -31,6 +32,7 @@ typedef struct Board {
     SnakeBody * new_body;
 
     void (* reset)(Board *);
+    void (* apply_to_grid)(Board *);
 } Board;
 
 Board * init_board(int row, int col);

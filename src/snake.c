@@ -37,6 +37,7 @@ SnakeBody * create_new_head(Snake * snake);
 SnakeBody * add_next_link(SnakeBody * this, SnakeBody * next);
 SnakeBody * add_previous_link(SnakeBody * this, SnakeBody * previous);
 void print_head_position(Snake * snake);
+Coord_list * populate_snake_coords(Snake * snake, Coord_list * coord_list);
 
 SnakeBody * grab_next_body(SnakeBody * this);
 
@@ -61,6 +62,7 @@ Snake * init_snake(void){
     snake->tail_to_head = &move_snake_tail_to_head;
     snake->new_head = &create_new_head;
     snake->print_head_position = &print_head_position;
+    snake->coord_list = &populate_snake_coords;
 
     return snake;
 }

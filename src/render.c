@@ -4,21 +4,29 @@
 // Author: NZPIEFACE
 
 // Changelog:
-/* 
+/*  09/11/2020 - Finished writing the function.
 */
 #include <stdio.h>
+#include <stdlib.h>
 
 void render(char ** grid, int row, int col){
+    system("clear");
     for (int i = 0; i < row; i++){
         for (int j = 0; j < col; j++){
-            if (grid[i][j] != 0){
-                printf("%c", grid[i][j]);
+            // Snakes
+            if (grid[i][j] == 'O' ){
+                printf("\x1B[42;1m[O]\x1B[0m"); // White on green.
             }
+            // Food
+            else if (grid[i][j] == 'X'){
+                printf("\x1B[41;1m\x1B[32;1m X \x1B[0m"); // Green on red.
+            }
+            // Everything else
             else {
-                printf(".");
+                printf("\x1B[40m   \x1B[0m"); // Black on black.
             }
         }
-        printf("\n");
+        printf("\n\x1B[0m"); // Extra scape code to catch whatever leaks.
     }
     return;
 }

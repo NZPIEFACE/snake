@@ -6,6 +6,7 @@
 // Changelog:
 /*  14/08/2020 - Food was added.
     09/11/2020 - Spawn food completed.
+               - Finished tying it into the render function.
 */
 
 #include <stdlib.h>
@@ -17,7 +18,10 @@
 // Private functions/methods
 void reset_board(Board * board);
 Coord spawn_food(Board * board);
+void food_eaten(Board * board);
 void write_to_grid(Board * board, Coord coord, char c);
+void format_display(Board * board);
+void snake_and_food_to_grid(Board * board);
 
 Board * init_board(int row, int col){
     Board * board = malloc(sizeof(Board));
@@ -35,6 +39,7 @@ Board * init_board(int row, int col){
     board->new_body = NULL;
 
     board->reset = &reset_board;
+    board->apply_to_grid = &snake_and_food_to_grid;
 
     board->display_grid = malloc(sizeof(char *) * row);
 
@@ -72,11 +77,12 @@ void reset_board(Board * board){
     return;
 }
 
+// Completed function
 Coord spawn_food(Board * board){
     // Create boolean grid
-    int ** all_coords = malloc(sizeof(int) * board->size + sizeof(int*) * board->row);
+    char ** all_coords = malloc(sizeof(char) * board->size + sizeof(char*) * board->row);
     for (int i = 0; i < board->row; i++){
-        all_coords[i] = all_coords + board->row + i * board->col;
+        all_coords[i] = (char *)(all_coords + board->row) + i * board->col;
     }
 
     // Initiate them all as TRUE
@@ -86,11 +92,12 @@ Coord spawn_food(Board * board){
         }
     }
 
+    // Retrieves a list of coordinates from the Snake object. Can be more efficient.
     Coord_list * snake_coords = init_coord_list(board->snake->length);
-    snake_coords = populate_snake_coords(board->snake, snake_coords);
+    snake_coords = board->snake->coord_list(board->snake, snake_coords);
 
     // Setting already existing coords as FALSE.
-    for (int i = 0; i < snake_coords->length; i++){
+    for (int i = 0; i < board->snake->length; i++){
         all_coords[snake_coords->list[i].x][snake_coords->list[i].y] = 0;
     }
     
@@ -105,6 +112,7 @@ Coord spawn_food(Board * board){
         }
     }
 
+    // Finding a random space from the array
     int random_number = rand() % free_spaces->length;
     Coord food_space = free_spaces->list[random_number];
 
@@ -121,5 +129,33 @@ void write_to_grid(Board * board, Coord coord, char c){
     return;
 }
 
+// Applying the characters to the board.
+void snake_and_food_to_grid(Board * board){
+    Coord_list * snake_coords = init_coord_list(board->snake->length);
+    snake_coords = board->snake->coord_list(board->snake, snake_coords);
+
+    // Go through all the snake positions and print them to the board.
+    for (int i = 0; i < snake_coords->length; i++){
+        Coord current = snake_coords->list[i];
+        write_to_grid(board, current, 'O');
+    }
+
+    // Find out if the food exists or not.
+    Coord error_case = {-1, -1};
+    if (coord_eqs(board->food, error_case) == 0){
+        write_to_grid(board, board->food, 'X');
+    }
+
+    free(snake_coords);
+    return;
+}
+
 //void grab_cell
 
+//Action to perform when the food is eaten.
+void food_eaten(Board * board){
+    board->snake->new_head(board->snake);
+    board->food = spawn_food(board);
+
+    return;
+}

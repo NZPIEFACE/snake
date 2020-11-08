@@ -9,19 +9,17 @@
 int main(void){
     srand(time(0));
 
-    Snake * snake = init_snake();
-    printf("Direction: ");
-    print_coord(snake->direction);
-    snake->print_head_position(snake);
+    Board * board = init_board(5, 5);
 
-    snake->tail_to_head(snake);
-    snake->print_head_position(snake);
-    printf("Length: %d\n", snake->length);
+    board->apply_to_grid(board);
+    struct timespec ts;
+    ts.tv_sec = 0;
+    ts.tv_nsec = (1/10) * 1000000000;
+    for(;;){
+        nanosleep(&ts, NULL);
+        render(board->display_grid, 5, 5);
+    }
 
-    snake->new_head(snake);
-    snake->print_head_position(snake);
-    printf("Length: %d\n", snake->length);
-
-    free_snake(snake);
+    free_board(board);
     return 0;
 }
