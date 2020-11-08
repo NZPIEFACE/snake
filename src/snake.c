@@ -1,7 +1,7 @@
 // Snake object (and related functions)
     /* Only want to pass the Snake object from this file, really. 
     */
-// Date: 27/05/2020
+// Date: 13/08/2020
 // Author: NZPIEFACE
 
 // Changelog:

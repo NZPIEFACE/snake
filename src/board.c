@@ -1,18 +1,22 @@
 // Game board
     // To make and change(?) game board.
-// Date: 04/07/2020
+// Date: 14/08/2020
 // Author: NZPIEFACE
 
 // Changelog:
-/* 
+/* 14/08/2020 - Food was added.
 */
 
 #include <stdlib.h>
 #include "board.h"
 //#include "snake.h"    //snake.h is included in board.h
 
+#define DEFAULT_FOOD {2, 2}
+
 // Private functions/methods
 void reset_board(Board * board);
+Coord spawn_food(Board * board);
+void write_to_grid(Board * board, Coord coord, char c);
 
 Board * init_board(int row, int col){
     Board * board = malloc(sizeof(Board));
@@ -20,6 +24,9 @@ Board * init_board(int row, int col){
     board->row = row;
     board->col = col;
     board->snake = init_snake();
+
+    Coord food = DEFAULT_FOOD;
+    board->food = food;
 
     // Init to NULL, change to something else if not null.
     board->moved_body = NULL;
@@ -59,5 +66,14 @@ void reset_board(Board * board){
             board->grid[i][j] = 0;
         }
     }
+    return;
+}
+
+Coord spawn_food(Board * board){
+    return;
+}
+
+void write_to_grid(Board * board, Coord coord, char c){
+    board->grid[coord.x][coord.y] = c;
     return;
 }

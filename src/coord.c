@@ -1,5 +1,5 @@
 // Coord object
-// Date: 13/08/2020
+// Date: 14/08/2020
 // Author: NZPIEFACE
 
 // Changelog:
@@ -7,6 +7,7 @@
     13/08/2020 - Added defaults.
                - Coordinate arithmetic.
                - Added print_coord function.
+    14/08/2020 - bounded_coords was added.
 */
 
 #include <stdio.h>
@@ -29,4 +30,14 @@ int coord_eqs(Coord a, Coord b){
 void print_coord(Coord a){
     printf("x: %d, y: %d\n", a.x, a.y);
     return;
+}
+
+Coord coord_bound(Coord a, int row, int col){
+    Coord bounded_a = {a.x % row, a.y % col};
+    return bounded_a;
+}
+
+Coord coord_gen(int row, int col){
+    Coord a = {row, col};
+    return a;
 }
