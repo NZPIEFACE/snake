@@ -10,6 +10,7 @@
     14/08/2020 - Food was added.
     09/11/2020 - Added size.
                - Added apply_to_grid.
+    11/11/2020 - Added spawn_food.
 */
 
 #ifndef _BOARD_H
@@ -33,6 +34,7 @@ typedef struct Board {
 
     void (* reset)(Board *);
     void (* apply_to_grid)(Board *);
+    void (* spawn_food)(Board *);
 } Board;
 
 Board * init_board(int row, int col);

@@ -29,6 +29,15 @@ int coord_eqs(Coord a, Coord b){
     return (a.x == b.x) && (a.y == b.y);
 }
 
+int coord_in(Coord coord, Coord top_left, Coord bottom_right){
+    if ((coord.x < top_left.x || coord.x > bottom_right.x) || (coord.y < bottom_right.y || coord.y > top_left.y)){
+        return 0;
+    }
+    else {
+        return 1;
+    }
+}
+
 void print_coord(Coord a){
     printf("x: %d, y: %d\n", a.x, a.y);
     return;

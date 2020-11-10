@@ -26,9 +26,11 @@ typedef struct Coord_list {
 
 Coord coord_add(Coord a, Coord b);
 int coord_eqs(Coord a, Coord b);
+int coord_in(Coord coord, Coord top_left, Coord bottom_right);
 void print_coord(Coord a);
 Coord coord_bound(Coord a, int row, int col);
 Coord coord_gen(int row, int col);
+
 
 Coord_list * init_coord_list(int length);
 void free_coord_list(Coord_list * list);

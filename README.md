@@ -13,9 +13,17 @@
 
   - User input
     - Change directions
+    - Read user input from buffer.
+    - Need to remove echo from typing.
+    - Need to make it so typing something adds to buffer even when the program is sleeping, or through another way.
 
   - Game logic
     - Needs to know what to do between frames, and the order of how the game happens.
+      - Order:  
+        Read input.  
+        See where head is.  
+        Render the game.  
+        Wait till next time.
 
 - Inefficiencies
   - Private SnakeBody means that to interface the list of coordinates from the Snake object, it's required to call a funciton that allocates memory and will generally loop over the same things twice.

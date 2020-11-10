@@ -33,7 +33,7 @@ SnakeBody * init_body(Coord position);
 void free_body(SnakeBody * body);
 Coord next_position(Snake * snake);
 SnakeBody * move_snake_tail_to_head(Snake * snake);
-SnakeBody * create_new_head(Snake * snake);
+SnakeBody * create_new_head(Snake * snake, Coord head_position);
 SnakeBody * add_next_link(SnakeBody * this, SnakeBody * next);
 SnakeBody * add_previous_link(SnakeBody * this, SnakeBody * previous);
 void print_head_position(Snake * snake);
@@ -113,8 +113,8 @@ SnakeBody * move_snake_tail_to_head(Snake * snake){
     return snake->head;
 }
 
-SnakeBody * create_new_head(Snake * snake){
-    SnakeBody * new_head = init_body(snake->next_position(snake));
+SnakeBody * create_new_head(Snake * snake, Coord head_position){
+    SnakeBody * new_head = init_body(head_position);
     
     // Link the tail to the new head
     add_previous_link(new_head, snake->head->previous);

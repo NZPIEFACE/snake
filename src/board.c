@@ -7,6 +7,7 @@
 /*  14/08/2020 - Food was added.
     09/11/2020 - Spawn food completed.
                - Finished tying it into the render function.
+    11/11/2020 - Added spawn_food to board object.
 */
 
 #include <stdlib.h>
@@ -17,7 +18,7 @@
 
 // Private functions/methods
 void reset_board(Board * board);
-Coord spawn_food(Board * board);
+void spawn_food(Board * board);
 void food_eaten(Board * board);
 void write_to_grid(Board * board, Coord coord, char c);
 void format_display(Board * board);
@@ -40,6 +41,7 @@ Board * init_board(int row, int col){
 
     board->reset = &reset_board;
     board->apply_to_grid = &snake_and_food_to_grid;
+    board->spawn_food = &spawn_food;
 
     board->display_grid = malloc(sizeof(char *) * row);
 
@@ -78,7 +80,7 @@ void reset_board(Board * board){
 }
 
 // Completed function
-Coord spawn_food(Board * board){
+Coord find_empty_cell(Board * board){
     // Create boolean grid
     char ** all_coords = malloc(sizeof(char) * board->size + sizeof(char*) * board->row);
     for (int i = 0; i < board->row; i++){
@@ -114,13 +116,18 @@ Coord spawn_food(Board * board){
 
     // Finding a random space from the array
     int random_number = rand() % free_spaces->length;
-    Coord food_space = free_spaces->list[random_number];
+    Coord empty_cell = free_spaces->list[random_number];
 
     free(all_coords);
     free_coord_list(snake_coords);
     free_coord_list(free_spaces);
 
-    return food_space;
+    return empty_cell;
+}
+
+void spawn_food(Board * board){
+    board->food = find_empty_cell(board);
+    return;
 }
 
 // Completed function
@@ -151,11 +158,3 @@ void snake_and_food_to_grid(Board * board){
 }
 
 //void grab_cell
-
-//Action to perform when the food is eaten.
-void food_eaten(Board * board){
-    board->snake->new_head(board->snake);
-    board->food = spawn_food(board);
-
-    return;
-}
