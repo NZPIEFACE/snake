@@ -12,7 +12,8 @@
       The idea was that by using an array of arrays, which contain coordinates, the coordinates could be reused and it would be simple to check if there are overlapping coordinates. However now that I think about it, they're already super simple.
 
   - User input
-    - Change directions
+    - Buffered input. Needs to read what the user presses between the frames.
+    - Changing the direction of the snake
 
   - Game logic
     - Needs to know what to do between frames, and the order of how the game happens.
