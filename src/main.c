@@ -6,6 +6,8 @@
 #include "board.h"
 #include "render.h"
 
+
+
 int main(void){
     srand(time(0));
 

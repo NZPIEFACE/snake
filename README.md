@@ -17,10 +17,9 @@
   - Game logic
     - Needs to know what to do between frames, and the order of how the game happens.
 
-
 - Inefficiencies
   - Private SnakeBody means that to interface the list of coordinates from the Snake object, it's required to call a funciton that allocates memory and will generally loop over the same things twice.
-
+  
 ## Things that are finished
 
 - Engine
@@ -30,4 +29,3 @@
 - Rendering
   - Output w/ steady frame rate.
   - Changing character grid.
-  
