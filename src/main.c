@@ -11,14 +11,15 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <sys/times.h>
+#include <sys/time.h>
+#include <stdlib.h>
 
 #include "main.h"
 #include "board.h"
 #include "io.h"
 #include "polling.h"
 
-void turn_logic(Board * board, char input);
+int turn_logic(Board * board, char input);
 
 int main(void){
 
@@ -33,9 +34,13 @@ int main(void){
 
     while(1){
         user_input = input_polling(&polling_duration, &start_time);
+        polling_duration = DEFAULT_POLL;
+        start_time = times(NULL);
         
         if (user_input == POLLING_DONE){
-            turn_logic(board, saved_input);
+            if(turn_logic(board, saved_input)){
+                break;
+            }
         }
         else if (user_input != DEFAULT_CHAR && user_input != EXIT_CODE){
             saved_input = user_input;
@@ -47,14 +52,18 @@ int main(void){
         
     }
 
-    terminal_reset();
+    printf("Score: %d\n", board->snake->length);
+    printf("Press anything to continue...");
+    getc(stdin);
 
+    terminal_reset();
+    free(board);
     return 0;
 }
 
 
 
-void turn_logic(Board * board, char input){
+int turn_logic(Board * board, char input){
     static Coord snake_directions[4];
     snake_directions[0] = UP;
     snake_directions[1] = DOWN;
@@ -69,6 +78,16 @@ void turn_logic(Board * board, char input){
             board->snake->direction = snake_directions[input-1];
         }
     }
+
+    // Does it still live?
+    Coord bottom_right = {board->row - 1, board->col - 1};
+    if (!coord_in(board->snake->next_position(board->snake), ORIGIN, bottom_right)){
+        return 1;
+    }
+    if (board->snake->overlap(board->snake)){
+        return 1;
+    }
+
     // Does it eat food?
         // Y - New head on food.
     if (coord_eqs(board->snake->next_position(board->snake), board->food)){
@@ -86,6 +105,7 @@ void turn_logic(Board * board, char input){
 
     // Render
     board->apply_to_grid(board);
-    render(board->display_grid, board->row, board->col);
+    bw_render(board->display_grid, board->row, board->col);
     
+    return 0;
 }

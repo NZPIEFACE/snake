@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 void render(char ** grid, int row, int col){
-    system("clear");
+    system("cls");
     for (int i = 0; i < row; i++){
         for (int j = 0; j < col; j++){
             // Snakes

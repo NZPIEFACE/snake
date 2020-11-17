@@ -35,7 +35,7 @@ int coord_eqs(Coord a, Coord b){
 }
 
 int coord_in(Coord coord, Coord top_left, Coord bottom_right){
-    if ((coord.x < top_left.x || coord.x > bottom_right.x) || (coord.y < bottom_right.y || coord.y > top_left.y)){
+    if ((coord.x < top_left.x || coord.x > bottom_right.x) || (coord.y > bottom_right.y || coord.y < top_left.y)){
         return 0;
     }
     else {

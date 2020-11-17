@@ -11,6 +11,7 @@
                - Added methods.
                - Added SnakeBody linking.
     09/11/2020 - Added populat_snake_coords.
+    18/11/2020 - Added overlap.
 */
 
 #include <stdlib.h>
@@ -34,6 +35,7 @@ SnakeBody * add_next_link(SnakeBody * this, SnakeBody * next);
 SnakeBody * add_previous_link(SnakeBody * this, SnakeBody * previous);
 void print_head_position(Snake * snake);
 Coord_list * populate_snake_coords(Snake * snake, Coord_list * coord_list);
+int snake_head_overlap_itself(Snake * snake);
 
 SnakeBody * grab_next_body(SnakeBody * this);
 
@@ -59,7 +61,7 @@ Snake * init_snake(void){
     snake->new_head = &create_new_head;
     snake->print_head_position = &print_head_position;
     snake->coord_list = &populate_snake_coords;
-
+    snake->overlap = &snake_head_overlap_itself;
     return snake;
 }
 
@@ -159,4 +161,19 @@ Coord_list * populate_snake_coords(Snake * snake, Coord_list * coord_list){
     }
 
     return coord_list;
+}
+
+int snake_head_overlap_itself(Snake * snake){
+    Coord_list * coords = init_coord_list(snake->length);
+    snake->coord_list(snake, coords);
+    int bool_val = 0;
+
+    for (int i = 0; i < coords->length; i++){
+        if (coord_eqs(snake->next_position(snake), coords->list[i])){
+            return 1;
+        }
+    }
+
+    free(coords);
+    return bool_val;
 }

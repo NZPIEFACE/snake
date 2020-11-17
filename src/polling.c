@@ -10,7 +10,7 @@
 
 #include <poll.h>
 #include <unistd.h>
-#include <sys/times.h>
+#include <sys/time.h>
 #include <time.h>
 
 #include "polling.h"
@@ -37,6 +37,7 @@ char input_polling(int * polling_duration, clock_t * start_time){
     if (poll_result > 0){
         if (stdin_poll[0].revents & POLLIN){    // There is something to read
             return_value =  read_input();    // Read input
+            return return_value;
         }
     }
 

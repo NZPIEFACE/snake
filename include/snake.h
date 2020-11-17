@@ -30,6 +30,7 @@ typedef struct Snake {
     SnakeBody * (*new_head)(Snake *, Coord);
     void (* print_head_position)(Snake *);
     Coord_list * (*coord_list)(Snake *, Coord_list *);
+    int (* overlap)(Snake *);
 } Snake;
 
 typedef struct SnakeBody {
