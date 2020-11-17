@@ -11,19 +11,14 @@
       Currently, the usage of coordinates is very much create-and-forget, despite the fact that there will only exist a finite amount of coordinates.  
       The idea was that by using an array of arrays, which contain coordinates, the coordinates could be reused and it would be simple to check if there are overlapping coordinates. However now that I think about it, they're already super simple.
 
-  - User input
-    - Change directions
-
-  - Game logic
-    - Needs to know what to do between frames, and the order of how the game happens.
-      - Order:  
-        Read input. (Done)  
-        See where head is.  
-        Render the game.  
-        Wait till next time.
-
 - Inefficiencies
   - Private SnakeBody means that to interface the list of coordinates from the Snake object, it's required to call a funciton that allocates memory and will generally loop over the same things twice.
+
+- Engine
+  - Kill the snake if it hits a wall or itself.
+
+- Issues
+  - Sometimes the directions won't change. Find and fix it.
   
 ## Things that are finished
 
@@ -31,7 +26,8 @@
   - Food spawning
     - Random selection on unoccupied coordinates.
 
-  - User Input
+  - User input
+    - Change directions
     - Input polling
     - Read user input from buffer.
     - Need to remove echo from typing.
@@ -41,3 +37,11 @@
 - Rendering
   - Output w/ steady frame rate.
   - Changing character grid.
+
+- Game logic
+  - Needs to know what to do between frames, and the order of how the game happens.
+    - Order:  
+      Read input.  
+      See where head is.  
+      Render the game.  
+      Wait till next time.

@@ -11,7 +11,7 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
-#define DEFAULT_ROW 5
-#define DEFAULT_COL 5
+#define DEFAULT_ROW 15
+#define DEFAULT_COL 15
 
 #endif

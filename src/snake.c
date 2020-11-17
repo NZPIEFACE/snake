@@ -19,14 +19,10 @@
 #define DEFAULT_LENGTH 2
 #define DEFAULT_HEAD {0, 1}
 #define DEFAULT_TAIL {0, 0}
-#define DEFAULT_DIRECTION DOWN
+#define DEFAULT_DIRECTION RIGHT
 
 // Private struct definitions
-typedef struct SnakeBody {
-    Coord position; // this line... it needs to be public to use print_coord in main.c
-    SnakeBody * previous;
-    SnakeBody * next;
-} SnakeBody;
+
 
 // Private functions/methods
 SnakeBody * init_body(Coord position);

@@ -11,7 +11,7 @@
 #ifndef _POLLING_H
 #define _POLLING_H
 
-#define DEFAULT_POLL 200
+#define DEFAULT_POLL 100
 #define MIN_POLL     10
 
 #define POLLING_DONE -2

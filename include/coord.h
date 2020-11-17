@@ -46,10 +46,10 @@ Coord ORIGIN;
 Coord ERROR;
 */
 
-#define UP coord_gen(0, -1)
-#define DOWN coord_gen(0, 1)
-#define LEFT coord_gen(-1, 0)
-#define RIGHT coord_gen(1, 0)
+#define UP coord_gen(-1, 0)
+#define DOWN coord_gen(1, 0)
+#define LEFT coord_gen(0, -1)
+#define RIGHT coord_gen(0, 1)
 #define ORIGIN coord_gen(0, 0)
 #define ERROR coord_gen(-1, -1)
 

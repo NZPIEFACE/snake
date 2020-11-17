@@ -32,6 +32,12 @@ typedef struct Snake {
     Coord_list * (*coord_list)(Snake *, Coord_list *);
 } Snake;
 
+typedef struct SnakeBody {
+    Coord position; // this line... it needs to be public to use print_coord in main.c
+    SnakeBody * previous;
+    SnakeBody * next;
+} SnakeBody;
+
 Snake * init_snake(void);
 void    free_snake(Snake * snake);
 

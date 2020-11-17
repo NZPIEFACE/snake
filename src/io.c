@@ -74,6 +74,6 @@ char direction_is(char c, char up, char down, char right, char left, char quit){
         return EXIT_CODE;
     }
     else {
-        return DEFAULT;
+        return DEFAULT_CHAR;
     }
 }
