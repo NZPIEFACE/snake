@@ -3,7 +3,7 @@ LIBS = -lm
 
 TARGET = snake
 
-_SRCS = main render snake board coord io
+_SRCS = main render snake board coord io polling
 _HEAD = 
 
 SRC_DIR = src/
