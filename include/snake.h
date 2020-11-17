@@ -27,7 +27,7 @@ typedef struct Snake {
 
     Coord (* next_position)(Snake *);
     SnakeBody * (* tail_to_head)(Snake *);  // returns new head
-    SnakeBody * (*new_head)(Snake *);
+    SnakeBody * (*new_head)(Snake *, Coord);
     void (* print_head_position)(Snake *);
     Coord_list * (*coord_list)(Snake *, Coord_list *);
 } Snake;

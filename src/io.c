@@ -59,21 +59,21 @@ char read_input(void){
 // Chain of if-else's because can't use switch statements.
 char direction_is(char c, char up, char down, char right, char left, char quit){
     if (c == up){
-        return 1;
+        return UP_CHAR;
     }
     else if (c == down){
-        return 2;
+        return DN_CHAR;
     }
     else if (c == right){
-        return 3;
+        return RT_CHAR;
     }
     else if (c == left){
-        return 4;
+        return LT_CHAR;
     }
     else if (c == quit){
-        return -1;
+        return EXIT_CODE;
     }
     else {
-        return 0;
+        return DEFAULT;
     }
 }

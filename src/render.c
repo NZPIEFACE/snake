@@ -17,11 +17,11 @@ void render(char ** grid, int row, int col){
         for (int j = 0; j < col; j++){
             // Snakes
             if (grid[i][j] == 'O' ){
-                printf("\x1B[42;1m[O]\x1B[0m"); // White on green.
+                printf("\x1B[42;1m O \x1B[0m"); // White on green.
             }
             // Food
             else if (grid[i][j] == 'X'){
-                printf("\x1B[41;1m\x1B[32;1m X \x1B[0m"); // Green on red.
+                printf("\x1B[41;1m\x1B[32;1m   \x1B[0m"); // Green on red.
             }
             // Everything else
             else {

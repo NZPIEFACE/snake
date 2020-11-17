@@ -13,12 +13,11 @@
 
   - User input
     - Change directions
-    - Input polling
 
   - Game logic
     - Needs to know what to do between frames, and the order of how the game happens.
       - Order:  
-        Read input.  
+        Read input. (Done)  
         See where head is.  
         Render the game.  
         Wait till next time.
@@ -33,6 +32,7 @@
     - Random selection on unoccupied coordinates.
 
   - User Input
+    - Input polling
     - Read user input from buffer.
     - Need to remove echo from typing.
     - Need to make it so typing something adds to buffer even when the program is sleeping, or through another way.

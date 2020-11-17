@@ -15,6 +15,13 @@
 #include "render.h"
 #include "coord.h"
 
+#define EXIT_CODE -1
+#define DEFAULT 0
+#define UP_CHAR 1
+#define DN_CHAR 2
+#define RT_CHAR 3
+#define LT_CHAR 4
+
 void terminal_setup(void);
 void terminal_reset(void);
 

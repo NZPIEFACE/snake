@@ -14,6 +14,7 @@
 #include <time.h>
 
 #include "polling.h"
+#include "io.h"
 
 // Define private variable
 struct pollfd stdin_poll[1];
@@ -41,7 +42,7 @@ char input_polling(int * polling_duration, clock_t * start_time){
     if (poll_result == 0 || remaining_duration < MIN_POLL){
         *start_time = times(NULL);  // New start time
         *polling_duration = DEFAULT_POLL;   // Reset polling duration
-        return -2;  // -1 is reserved for read_input.
+        return POLLING_DONE;  // -1 is reserved for read_input.
     }
 
     // Unsuccessful but still has time left to poll

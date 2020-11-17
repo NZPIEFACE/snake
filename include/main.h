@@ -5,12 +5,13 @@
 // Author: NZPIEFACE
 
 // Changelog:
-/*
+/*  18/11/2020 - Added defaults.
 */
 
 #ifndef _MAIN_H
 #define _MAIN_H
 
-
+#define DEFAULT_ROW 5
+#define DEFAULT_COL 5
 
 #endif
