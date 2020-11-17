@@ -1,7 +1,7 @@
 // I/O module
     /* Module for user input and user output.
     */
-// Date: 10/11/2020
+// Date: 17/11/2020
 // Author: NZPIEFACE
 
 // Changelog:
@@ -18,6 +18,6 @@
 void terminal_setup(void);
 void terminal_reset(void);
 
-Coord read_input(void);
+char read_input(void);
 
 #endif

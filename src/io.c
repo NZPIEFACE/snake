@@ -11,14 +11,13 @@
 #include <termios.h>
 #include <unistd.h>
 
-#include "coord.h"
 #include "io.h"
 
 #define BUFFER_SIZE 16
 
 
 // Declaration of private functions
-Coord direction_is(char c, char up, char down, char right, char left, char quit);
+char direction_is(char c, char up, char down, char right, char left, char quit);
 
 // Declaration of private variables
 struct termios old_attributes, new_attributes;
@@ -38,51 +37,43 @@ void terminal_reset(void){
 }
 
 // filter input passed from buffer for directions/esc
-Coord read_input(void){
+char read_input(void){
     char ch_buffer[BUFFER_SIZE] = {0};
     int c_read = read(STDIN_FILENO, ch_buffer, BUFFER_SIZE);
 
     if (c_read == 1){
         // 27 is ESC
-        Coord upper = direction_is(ch_buffer[0], 'W', 'S', 'D', 'A', 27);
-        Coord lower = direction_is(ch_buffer[0], 'w', 's', 'd', 'a', 27);
+        char upper = direction_is(ch_buffer[0], 'W', 'S', 'D', 'A', 27);
+        char lower = direction_is(ch_buffer[0], 'w', 's', 'd', 'a', 0);     // Only need to check for ESC once.
 
-        if (!coord_eqs(upper, ORIGIN)){
-            return upper;
-        }
-        else if (!coord_eqs(lower, ORIGIN)){
-            return lower;
-        }
-        else {
-            return ORIGIN;
-        }
+        return upper + lower;   // One is 0
     }
     else if (c_read == 3){
         return direction_is(ch_buffer[2], 'A', 'B', 'C', 'D', 0);
     }
     else {
-        return ORIGIN;
+        return 0;
     }
 }
 
 // Chain of if-else's because can't use switch statements.
-Coord direction_is(char c, char up, char down, char right, char left, char quit){
+char direction_is(char c, char up, char down, char right, char left, char quit){
     if (c == up){
-        return UP;
+        return 1;
     }
     else if (c == down){
-        return DOWN;
+        return 2;
     }
     else if (c == right){
-        return RIGHT;
+        return 3;
     }
     else if (c == left){
-        return LEFT;
+        return 4;
     }
     else if (c == quit){
-        return ERROR;
+        return -1;
     }
     else {
-        return ORIGIN;
+        return 0;
     }
 }
