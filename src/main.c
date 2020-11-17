@@ -4,24 +4,28 @@
 #include <time.h>
 
 #include "board.h"
-#include "render.h"
+#include "io.h"
 
-
+void sleep_hz(int hz);
 
 int main(void){
-    srand(time(0));
 
-    Board * board = init_board(5, 5);
+    terminal_setup();
 
-    board->apply_to_grid(board);
-    struct timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = (1/10) * 1000000000;
-    for(;;){
-        nanosleep(&ts, NULL);
-        render(board->display_grid, 5, 5);
+    while(1){
+        print_coord(read_input());
     }
 
-    free_board(board);
+    terminal_reset();
+
     return 0;
+}
+
+void sleep_hz(int hz){
+    struct timespec ts;
+    ts.tv_sec = 0;
+    ts.tv_nsec = (1/hz) * 1000000000;
+
+    nanosleep(&ts, NULL);
+    return;
 }
