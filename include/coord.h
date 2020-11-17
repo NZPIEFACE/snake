@@ -9,6 +9,8 @@
                - Added print_coord function.
     14/08/2020 - bounded_coords was added.
     09/11/2020 - Added Coord_list.
+    17/11/2020 - Added ORIGIN and ERROR.
+               - Changed globals into definitions.
 */
 
 #ifndef _COORD_H
@@ -35,9 +37,20 @@ Coord coord_gen(int row, int col);
 Coord_list * init_coord_list(int length);
 void free_coord_list(Coord_list * list);
 
+/*
 Coord UP;
 Coord DOWN;
 Coord LEFT;
 Coord RIGHT;
+Coord ORIGIN;
+Coord ERROR;
+*/
+
+#define UP coord_gen(0, -1)
+#define DOWN coord_gen(0, 1)
+#define LEFT coord_gen(-1, 0)
+#define RIGHT coord_gen(1, 0)
+#define ORIGIN coord_gen(0, 0)
+#define ERROR coord_gen(-1, -1)
 
 #endif

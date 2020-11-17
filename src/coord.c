@@ -9,16 +9,21 @@
                - Added print_coord function.
     14/08/2020 - bounded_coords was added.
     09/11/2020 - Added Coord_list functions.
+    17/11/2020 - Added ORIGIN and ERROR.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "coord.h"
 
+/*
 Coord UP = {0, -1};
 Coord DOWN = {0, 1};
 Coord LEFT = {-1, 0};
 Coord RIGHT = {0, 1};
+Coord ORIGIN = {0, 0};
+Coord ERROR = {-1, -1};
+*/
 
 Coord coord_add(Coord a, Coord b){
     Coord c = {a.x + b.x, a.y + b.y};
