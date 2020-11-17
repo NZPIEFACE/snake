@@ -6,14 +6,20 @@
 #include "board.h"
 #include "io.h"
 
-void sleep_hz(int hz);
+void sleep_hz(int f);
+struct timespec hz(int f);
 
 int main(void){
 
     terminal_setup();
 
     while(1){
-        print_coord(read_input());
+        Coord read = read_input();
+        print_coord(read);
+
+        if (coord_eqs(read, ERROR)){
+            break;
+        }
     }
 
     terminal_reset();
@@ -21,11 +27,15 @@ int main(void){
     return 0;
 }
 
-void sleep_hz(int hz){
-    struct timespec ts;
-    ts.tv_sec = 0;
-    ts.tv_nsec = (1/hz) * 1000000000;
-
+void sleep_hz(int f){
+    struct timespec ts = hz(f);
     nanosleep(&ts, NULL);
     return;
+}
+
+struct timespec hz(int f){
+    struct timespec ts;
+    ts.tv_sec = 0;
+    ts.tv_nsec = 1000000000/f;
+    return ts;
 }

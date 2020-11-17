@@ -13,9 +13,7 @@
 
   - User input
     - Change directions
-    - Read user input from buffer.
-    - Need to remove echo from typing.
-    - Need to make it so typing something adds to buffer even when the program is sleeping, or through another way.
+    - Input polling
 
   - Game logic
     - Needs to know what to do between frames, and the order of how the game happens.
@@ -28,6 +26,12 @@
 - Engine
   - Food spawning
     - Random selection on unoccupied coordinates.
+
+  - User Input
+    - Read user input from buffer.
+    - Need to remove echo from typing.
+    - Need to make it so typing something adds to buffer even when the program is sleeping, or through another way.
+      - Was done using a non-blocking input method.
 
 - Rendering
   - Output w/ steady frame rate.
