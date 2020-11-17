@@ -10,7 +10,7 @@
 
 #include <poll.h>
 #include <unistd.h>
-#include <sys/time.h>
+#include <sys/times.h>
 #include <time.h>
 
 #include "polling.h"

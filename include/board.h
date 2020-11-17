@@ -1,5 +1,6 @@
 // Game board
-    // To make and change(?) game board.
+    /* To make and change(?) game board.
+    */
 // Date: 04/07/2020
 // Author: NZPIEFACE
 
