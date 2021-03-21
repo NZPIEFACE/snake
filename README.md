@@ -10,13 +10,25 @@ Snake in C. Seriously, that's basically it.
     - Reasoning:
       Currently, the usage of coordinates is very much create-and-forget, despite the fact that there will only exist a finite amount of coordinates.  
       The idea was that by using an array of arrays, which contain coordinates, the coordinates could be reused and it would be simple to check if there are overlapping coordinates. However now that I think about it, they're already super simple.
+    - Cons:
+      The amount of memory that it could take up in the runtime of the program could simply bloat. Even thought it's only int[2] per coordinate. It's not a lot though.
+  - Update() function
+    - Instead of having the update to the game tied to the input/time-out logic, have it a separate function that is called by that logic.
+  - Multithreading
+    - Using multithreading for input and logic would probably work a lot better than leaving everything to the same thread.
 
 - Inefficiencies
   - Private SnakeBody means that to interface the list of coordinates from the Snake object, it's required to call a funciton that allocates memory and will generally loop over the same things twice.
+    - Examples:
+      - board.c:97 - find_empty_cell():
+        - Grabs the list to use it's coordinates to find indices of another array.
+      - snake.c:166 - snake_head_overlap_itself():
+        - Iterates over the whole list after creating it, then deletes it.
+    - These examples can be solved if there was a yield-like function that would return the values one after another, as the examples only iterate through the whole list. Making such a function would be great, however I have the sneaking feeling that it would require goto or jump or some other arcane arts.
 
 - Issues
   - Sometimes the directions won't change. Find and fix it.
-  - Cygwin can't compile it to run on Windows' native environment. MinGW can't compile this because of termios.h and sys/times.h.
+  - Cygwin can't compile it to run on Windows' native environment. MinGW can't compile this because of termios.h and sys/times.h. Slowly phase this into WinAPI.
   
 ## Things that are finished
 
@@ -57,3 +69,7 @@ Snake in C. Seriously, that's basically it.
 
 - sys/times.h
   - As I'm only using this for the times() function as it gives a relatively accurate system clock, I could instead use clock_gettime from the time.h header.
+
+- Implement instant direction changing when pressing a valid arrow key.
+  - I feel that this sort of gameplay would feel more natural than the current queued commands.
+    - This requires a way to reset the timer for updates whenever the update function is run.
