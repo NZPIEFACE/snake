@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <sys/time.h>
+#include <sys/time.h> // UNIX or POSIX
 #include <stdlib.h>
 
 #include "main.h"

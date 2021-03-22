@@ -8,9 +8,9 @@
 /*  
 */
 
-#include <poll.h>
-#include <unistd.h>
-#include <sys/times.h>
+#include <poll.h> // UNIX or POSIX
+#include <unistd.h> // POSIX
+#include <sys/times.h> // UNIX or POSIX
 #include <time.h>
 
 #include "polling.h"
@@ -24,7 +24,7 @@ void polling_setup(void){
     stdin_poll[0].events = POLLIN;
     return;
 }
-#include <stdio.h>
+
 char input_polling(int * polling_duration, clock_t * start_time){
     unsigned int poll_result = poll(stdin_poll, 1, *polling_duration);
     clock_t polling_time = times(NULL); // Not storing the CPU time

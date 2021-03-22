@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Very POSIX
 void render(char ** grid, int row, int col){
     system("cls");
     for (int i = 0; i < row; i++){

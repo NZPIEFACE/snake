@@ -8,8 +8,8 @@
 /*  17/11/2020 - Changed from Input module to IO module. Subsumed render, though will likely replace it later.
 */
 
-#include <termios.h>
-#include <unistd.h>
+#include <termios.h> // POSIX
+#include <unistd.h> // POSIX
 
 #include "io.h"
 
