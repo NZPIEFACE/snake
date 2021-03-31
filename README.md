@@ -72,4 +72,22 @@ Snake in C. Seriously, that's basically it.
 
 - Implement instant direction changing when pressing a valid arrow key.
   - I feel that this sort of gameplay would feel more natural than the current queued commands.
-    - This requires a way to reset the timer for updates whenever the update function is run.
+    - This requires a way to reset the timer for updates whenever the update function is run.cd
+
+## UNIX or POSIX headers
+
+- io.c
+  - termios.h
+    - Terminal setting control. Removing echo (see what you type) and canonical (pressing Enter for characters to be sent to buffer).
+  - unistd.h
+    - For read() which reads the STDIN character buffer.
+
+- main.c
+  - sys/time.h
+    - Used to determine start time of the polling to count the polling duration with the times() function.
+
+- polling.c
+  - poll.h
+  - unistd.h
+  - sys/times.h
+    - Used for the times() function similar to above.
