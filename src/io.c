@@ -6,10 +6,12 @@
 
 // Changelog:
 /*  17/11/2020 - Changed from Input module to IO module. Subsumed render, though will likely replace it later.
+    04/04/2021 - Replaced UNIX stuff.
 */
 
-#include <termios.h> // POSIX
-#include <unistd.h> // POSIX
+#include <windows.h>
+#include <conio.h>
+#include <stdio.h>
 
 #include "io.h"
 
@@ -17,63 +19,83 @@
 
 
 // Declaration of private functions
-char direction_is(char c, char up, char down, char right, char left, char quit);
+char direction_is(char c, char array[DIRECTIONS]);
+DWORD WINAPI input_thread(LPVOID lpParameter);
 
 // Declaration of private variables
-struct termios old_attributes, new_attributes;
+int ch_buffer = 0;
+HANDLE input_handle;
+int loop = 1;
 
-// function to change input echo and input buffering
-    // needs to read input even if user doesn't press enter, save that to buffer, then pass that along
-void terminal_setup(void){
-    tcgetattr(STDIN_FILENO, &old_attributes);
-    new_attributes = old_attributes;
-    new_attributes.c_lflag = old_attributes.c_lflag & ~(ECHO | ICANON);
-    tcsetattr(STDIN_FILENO, TCSANOW, &new_attributes);
+// Start the input polling
+void input_setup(void){
+    input_handle = CreateThread(0, 0, input_thread, NULL, 0, NULL);
+    loop = 1;
+    return;
 }
 
-// funciton to change that back
-void terminal_reset(void){
-    tcsetattr(STDIN_FILENO, TCSANOW, &old_attributes);
+// End the input polling
+void input_terminate(void){
+    loop = 0; // Stop input
+
+    // Write to console input to clear getch()
+    DWORD dwTmp;
+	INPUT_RECORD ir[1];
+
+	ir[0].EventType = KEY_EVENT;
+	ir[0].Event.KeyEvent.bKeyDown = TRUE;
+	ir[0].Event.KeyEvent.dwControlKeyState = 0; // No other keys are pressed
+	ir[0].Event.KeyEvent.uChar.AsciiChar = 27;
+	ir[0].Event.KeyEvent.wRepeatCount = 1;
+	ir[0].Event.KeyEvent.wVirtualKeyCode = 27; // Esc key https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+	ir[0].Event.KeyEvent.wVirtualScanCode = 1; // May be different https://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html  
+    WriteConsoleInput( GetStdHandle( STD_INPUT_HANDLE ), ir, 1, & dwTmp );
+
+    while(!loop);   // Wait until getch() is actually done before closing thread
+
+    TerminateThread(input_handle, 0);
+    CloseHandle(input_handle);
+
+    return;
 }
+
+// Read to buffer
+DWORD WINAPI input_thread(LPVOID lpParameter){
+    if (lpParameter != NULL) return -1; // This should never happen
+    
+    // Loops reading into input forever until thread closes
+    while(loop){
+        // Adding _kbhit() here slows the output down a lot
+        ch_buffer = getch(); // non-canonical
+    }
+
+    loop = 1;
+
+    return 0;
+}
+
+
 
 // filter input passed from buffer for directions/esc
 char read_input(void){
-    char ch_buffer[BUFFER_SIZE] = {0};
-    int c_read = read(STDIN_FILENO, ch_buffer, BUFFER_SIZE);
+    // Snapshot input
+    char input = (char) ch_buffer;
 
-    if (c_read == 1){
-        // 27 is ESC
-        char upper = direction_is(ch_buffer[0], 'W', 'S', 'D', 'A', 27);
-        char lower = direction_is(ch_buffer[0], 'w', 's', 'd', 'a', 0);     // Only need to check for ESC once.
+    // 27 is ESC
+    char upper = direction_is(input, (char[5]){'W', 'S', 'D', 'A', 'Q'});
+    char lower = direction_is(input, (char[5]){'w', 's', 'd', 'a', 'q'});
+    char arrow = direction_is(input, (char[5]){'H', 'P', 'M', 'K', 27});
 
-        return upper + lower;   // One is 0
-    }
-    else if (c_read == 3){
-        return direction_is(ch_buffer[2], 'A', 'B', 'C', 'D', 0);
-    }
-    else {
-        return 0;
-    }
+    return arrow + upper + lower;   // Only one is non-0
 }
 
 // Chain of if-else's because can't use switch statements.
-char direction_is(char c, char up, char down, char right, char left, char quit){
-    if (c == up){
-        return UP_CHAR;
+char direction_is(char c, char array[DIRECTIONS]){
+    for (int i = 0; i < DIRECTIONS; i++){
+        if (c == array[i]){
+            return i + 1;
+        }
     }
-    else if (c == down){
-        return DN_CHAR;
-    }
-    else if (c == right){
-        return RT_CHAR;
-    }
-    else if (c == left){
-        return LT_CHAR;
-    }
-    else if (c == quit){
-        return EXIT_CODE;
-    }
-    else {
-        return DEFAULT_CHAR;
-    }
+
+    return DEFAULT_CHAR;
 }

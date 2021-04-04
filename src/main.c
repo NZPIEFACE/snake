@@ -52,9 +52,8 @@ int main(void){
     input_terminate();
 
     printf("Score: %d\n", board->snake->length - 2); // The score no longer starts at 2.
-    printf("Press enter to exit...");
-    getchar();  // I do not know why getch() doesn't work here. Or why I need to press Enter twice
-    // Probably because of a running getch() in the other thread when it terminates.
+    printf("Press any key to exit...");
+    getch();
 
     free(board);
     return 0;

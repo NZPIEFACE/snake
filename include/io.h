@@ -7,6 +7,7 @@
 // Changelog:
 /*  17/11/2020 - Changed from Input module to IO module. Subsumed render.
                - Added terminal function and input direction.
+    04/04/2021 - Started replacing UNIX stuff.
 */
 
 #ifndef _INPUT_H
@@ -15,15 +16,17 @@
 #include "render.h"
 #include "coord.h"
 
-#define EXIT_CODE -1
+#define EXIT_CODE 5
 #define DEFAULT_CHAR 0
 #define UP_CHAR 1
 #define DN_CHAR 2
 #define RT_CHAR 3
 #define LT_CHAR 4
 
-void terminal_setup(void);
-void terminal_reset(void);
+#define DIRECTIONS 5
+
+void input_setup(void);
+void input_terminate(void);
 
 char read_input(void);
 
