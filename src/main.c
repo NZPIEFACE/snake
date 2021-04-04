@@ -5,58 +5,57 @@
 // Author: NZPIEFACE
 
 // Changelog:
-/*  11/11/2020 - Added turn logic.     
+/*  11/11/2020 - Added turn logic.
     17/11/2020 - Added terminal settings.
+    04/04/2021 - Got rid of UNIX stuff, including all of polling.h. 
 */
 
+#include <windows.h>
 #include <stdio.h>
 #include <time.h>
-#include <sys/time.h> // UNIX or POSIX
-#include <stdlib.h>
+#include <conio.h>
 
 #include "main.h"
 #include "board.h"
 #include "io.h"
-#include "polling.h"
+
+#define FRAME_DUR 100
 
 int turn_logic(Board * board, char input);
 
 int main(void){
 
-    terminal_setup();
-    polling_setup();
+    input_setup();
 
-    int polling_duration = DEFAULT_POLL;
-    clock_t start_time = times(NULL);
-    char user_input, saved_input;
+    clock_t polling_duration = FRAME_DUR;
+    clock_t poll_end = clock() + polling_duration;
+    char user_input = 0;
 
     Board * board = init_board(DEFAULT_ROW, DEFAULT_COL);
 
     while(1){
-        user_input = input_polling(&polling_duration, &start_time);
-        polling_duration = DEFAULT_POLL;
-        start_time = times(NULL);
-        
-        if (user_input == POLLING_DONE){
-            if(turn_logic(board, saved_input)){
+        if (clock() > poll_end){
+            poll_end += polling_duration;   // Very simple polling
+
+            user_input = read_input();  // Input is always up to date
+            
+            if(turn_logic(board, user_input)){
+                break;
+            }
+
+            if (user_input == EXIT_CODE){
                 break;
             }
         }
-        else if (user_input != DEFAULT_CHAR && user_input != EXIT_CODE){
-            saved_input = user_input;
-        }
-
-        if (user_input == EXIT_CODE){
-            break;
-        }
-        
     }
 
-    printf("Score: %d\n", board->snake->length);
-    printf("Press anything to continue...");
-    getc(stdin);
+    input_terminate();
 
-    terminal_reset();
+    printf("Score: %d\n", board->snake->length - 2); // The score no longer starts at 2.
+    printf("Press enter to exit...");
+    getchar();  // I do not know why getch() doesn't work here. Or why I need to press Enter twice
+    // Probably because of a running getch() in the other thread when it terminates.
+
     free(board);
     return 0;
 }

@@ -4,7 +4,7 @@ CC = x86_64-w64-mingw32-gcc
 
 TARGET = snake
 
-_SRCS = main render snake board coord io polling
+_SRCS = main render snake board coord io
 _HEAD = 
 
 SRC_DIR = src/

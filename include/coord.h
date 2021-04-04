@@ -11,6 +11,7 @@
     09/11/2020 - Added Coord_list.
     17/11/2020 - Added ORIGIN and ERROR.
                - Changed globals into definitions.
+    04/04/2021 - Changed ERROR to COORD_ERROR.
 */
 
 #ifndef _COORD_H
@@ -51,6 +52,6 @@ Coord ERROR;
 #define LEFT coord_gen(0, -1)
 #define RIGHT coord_gen(0, 1)
 #define ORIGIN coord_gen(0, 0)
-#define ERROR coord_gen(-1, -1)
+#define COORD_ERROR coord_gen(-1, -1)
 
 #endif
