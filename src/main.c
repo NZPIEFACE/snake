@@ -96,6 +96,11 @@ int update_game(Board * board){
     int return_code = 0;
 
     user_input = read_input();  // Input is always up to date
+
+    if (user_input == EXIT_CODE){
+        return 1;
+    }
+
     return_code = turn_logic(board, user_input);
 
 #ifdef STRINGOUT
@@ -103,7 +108,7 @@ int update_game(Board * board){
     printf("%s", o);
 #endif
 
-    if(return_code|| user_input == EXIT_CODE){
+    if(return_code){
         return 1;
     } else {
         return 0;

@@ -15,6 +15,7 @@ Snake in C. Seriously, that's basically it.
 
   - Multithreading
     - Using multithreading for input and logic would probably work a lot better than leaving everything to the same thread.
+      - This fucks with the current output method way too much. It takes too long to update to use a while(1) loop properly without fucking everything over. That, and also output is de-synced from inputs and logic, so sometimes the Snake's tail isn't printed since it's already been moved to the head while the screen was printing.
 
 - Inefficiencies
   - Frame output is inefficient.
