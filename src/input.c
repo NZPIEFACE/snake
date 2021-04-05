@@ -34,13 +34,10 @@ void input_setup(void){
     return;
 }
 
-// End the input polling
-void input_terminate(void){
-    loop = 0; // Stop input
-
+void read_ESC(void){
     // Write to console input to clear getch()
     DWORD dwTmp;
-	INPUT_RECORD ir[1];
+	INPUT_RECORD ir[2];
 
     // Presses ESC
 	ir[0].EventType = KEY_EVENT;
@@ -51,9 +48,25 @@ void input_terminate(void){
 	ir[0].Event.KeyEvent.wVirtualKeyCode = 27; // Esc key https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 	ir[0].Event.KeyEvent.wVirtualScanCode = 1; // May be different https://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html  
 
-    WriteConsoleInput( GetStdHandle( STD_INPUT_HANDLE ), ir, 1, & dwTmp );
+	ir[1].EventType = KEY_EVENT;
+	ir[1].Event.KeyEvent.bKeyDown = FALSE;
+	ir[1].Event.KeyEvent.dwControlKeyState = 0; // No other keys are pressed
+	ir[1].Event.KeyEvent.uChar.AsciiChar = 27;
+	ir[1].Event.KeyEvent.wRepeatCount = 1;
+	ir[1].Event.KeyEvent.wVirtualKeyCode = 27; // Esc key https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+	ir[1].Event.KeyEvent.wVirtualScanCode = 1; // May be different https://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html  
 
-    while(!loop);   // Wait until getch() is actually done before closing thread
+    WriteConsoleInput( GetStdHandle( STD_INPUT_HANDLE ), ir, 2, & dwTmp );
+}
+
+// End the input polling
+void input_terminate(void){
+    loop = 0; // Stop input
+
+    while(!loop){
+        read_ESC();
+        Sleep(1);   // Wait for the loop to end
+    }   // Wait until getch() is actually done before closing thread
 
     TerminateThread(input_handle, 0);
     CloseHandle(input_handle);

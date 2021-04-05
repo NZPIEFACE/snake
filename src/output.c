@@ -110,6 +110,7 @@ DWORD WINAPI output_thread(LPVOID lpParamater){
             complete_request(q->queue);
             q->remove(q);
         }
+        GoToXY(0, 0);
     }
 
     output_thread_active = 1;

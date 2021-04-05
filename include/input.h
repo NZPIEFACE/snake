@@ -13,7 +13,6 @@
 #ifndef _INPUT_H
 #define _INPUT_H
 
-#include "render.h"
 #include "coord.h"
 
 #define EXIT_CODE 5

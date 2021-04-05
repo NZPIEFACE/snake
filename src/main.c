@@ -60,7 +60,7 @@ int main(void){
     // Go to the end of the board
     GoToXY(0, board->row);
     printf("Score: %d\n", board->snake->length - 2); // The score no longer starts at 2.
-    printf("Press any key to exit...");
+    printf("Press any key to exit...\n");
     getch();
 
     free(board);
@@ -155,14 +155,17 @@ int turn_logic(Board * board, Queue * q, char input){
         // Clear the previous spot
         Coord tail = board->snake->head->previous->position;
 
-        // Add request to clear that position
-        q->add(q, ' ', coord2COORD(tail));
-
         // New head position
         board->snake->tail_to_head(board->snake);
 
         // Add request for it
         q->add(q, 'O', coord2COORD(board->snake->head->position));
+
+        // Add request to clear tail position
+        q->add(q, ' ', coord2COORD(tail));
+
+        // Add request to clear tail position
+        q->add(q, ' ', coord2COORD(tail));  // To get rid of ghost tail 
     }
     
     return 0;
