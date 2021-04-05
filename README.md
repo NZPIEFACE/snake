@@ -17,23 +17,9 @@ Snake in C. Seriously, that's basically it.
     - Using multithreading for input and logic would probably work a lot better than leaving everything to the same thread.
 
 - Inefficiencies
-  - Private SnakeBody means that to interface the list of coordinates from the Snake object, it's required to call a funciton that allocates memory and will generally loop over the same things twice.
-    - If it was public, it would be possible to iterate over the struct.
-    - Examples:
-      - main.c:181 - turn_logic():
-        - It updates the string every frame. It really doesn't need to.
-      - board.c:97 - find_empty_cell():
-        - Grabs the list to use it's coordinates to find indices of another array.
-      - snake.c:166 - snake_head_overlap_itself():
-        - Iterates over the whole list after creating it, then deletes it.
-    - These examples can be solved if there was a yield-like function that would return the values one after another, as the examples only iterate through the whole list. Making such a function would be great, however I have the sneaking feeling that it would require goto or jump or some other arcane arts.
-
   - Frame output is inefficient.
     - board->apply_to_grid(board) and bw_render are used every single frame.
       - Using a single string to output just exacerbates this issue. I think the only way to mitigate this is to move the console cursor to a specific location before printing.
-
-- Issues
-  - When the grid gets large, output is slow.
   
 ## Things that are finished
 
@@ -73,8 +59,22 @@ Snake in C. Seriously, that's basically it.
   - Sometimes snake will not eat food.
     - The issue was that it may have spawned the food on the exact location that the new head was also about to spawn at.
 
+- Inefficiencies
+  - Private SnakeBody means that to interface the list of coordinates from the Snake object, it's required to call a funciton that allocates memory and will generally loop over the same things twice.
+    - If it was public, it would be possible to iterate over the struct.
+    - Examples:
+      - main.c:181 - turn_logic():
+        - It updates the string every frame. It really doesn't need to.
+      - board.c:97 - find_empty_cell():
+        - Grabs the list to use it's coordinates to find indices of another array.
+      - snake.c:166 - snake_head_overlap_itself():
+        - Iterates over the whole list after creating it, then deletes it.
+    - These examples can be solved if there was a yield-like function that would return the values one after another, as the examples only iterate through the whole list. Making such a function would be great, however I have the sneaking feeling that it would require goto or jump or some other arcane arts.
+      - I was originally planning on making a function that would use the static variable declaration but then I realized that I could just make SnakeBody public.
+
 ## Things I could do
 
 - Implement instant direction changing when pressing a valid arrow key.
   - I feel that this sort of gameplay would feel more natural than the current queued commands.
     - This requires a way to reset the timer for updates whenever the update function is run.cd
+    - I'll seriously consider implementing this once the output of the game is much more stable.
