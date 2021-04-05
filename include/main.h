@@ -6,6 +6,7 @@
 
 // Changelog:
 /*  18/11/2020 - Added defaults.
+    05/04/2020 - Moved FRAME_DUR to here.
 */
 
 #ifndef _MAIN_H
@@ -13,5 +14,6 @@
 
 #define DEFAULT_ROW 15
 #define DEFAULT_COL 15
+#define FRAME_DUR 100
 
 #endif

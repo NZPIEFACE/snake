@@ -55,3 +55,26 @@ void bw_render(char ** grid, int row, int col){
     }
     return;
 }
+
+char * initialize_output_string(int row, int col){
+    int i, j, n = 0;
+    char * char_str = calloc(row * (1 + col * 3) + 1, sizeof(char));
+
+    for (i = 0 ; i < row; i++){
+        for (j = 0; j < col; j++){
+            char_str[n++] = '[';
+            char_str[n++] = ' ';
+            char_str[n++] = ']';
+        }
+        char_str[n++] = '\n';
+    }
+    char_str[n] = 0;
+    
+    return char_str;
+}
+
+void write_to_string(char * char_str, char ch, int row, int col, int board_col){
+    int n = (board_col * 3 + 1) * row + col * 3 + 1;
+    char_str[n] = ch;
+    return;
+}

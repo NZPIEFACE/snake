@@ -35,6 +35,7 @@ typedef struct Board {
 
     void (* reset)(Board *);
     void (* apply_to_grid)(Board *);
+    void (* write)(Board *, Coord, char);
     void (* spawn_food)(Board *);
 } Board;
 

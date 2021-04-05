@@ -42,6 +42,7 @@ void input_terminate(void){
     DWORD dwTmp;
 	INPUT_RECORD ir[1];
 
+    // Presses ESC
 	ir[0].EventType = KEY_EVENT;
 	ir[0].Event.KeyEvent.bKeyDown = TRUE;
 	ir[0].Event.KeyEvent.dwControlKeyState = 0; // No other keys are pressed
@@ -49,6 +50,7 @@ void input_terminate(void){
 	ir[0].Event.KeyEvent.wRepeatCount = 1;
 	ir[0].Event.KeyEvent.wVirtualKeyCode = 27; // Esc key https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 	ir[0].Event.KeyEvent.wVirtualScanCode = 1; // May be different https://www.win.tue.nl/~aeb/linux/kbd/scancodes-1.html  
+
     WriteConsoleInput( GetStdHandle( STD_INPUT_HANDLE ), ir, 1, & dwTmp );
 
     while(!loop);   // Wait until getch() is actually done before closing thread
