@@ -1,5 +1,5 @@
 // Snake object (and related functions)
-    /* Only want to pass the Snake object from this file, really. 
+    /* Only want to pass the Snake object from this file, really.
     */
 // Date: 27/05/2020
 // Author: NZPIEFACE
@@ -9,6 +9,7 @@
     13/08/2020 - Made SnakeBody object private.
                - Added methods.
     09/11/2020 - Added populat_snake_coords.
+    05/04/2021 - Stopped using Coord_list.
 */
 
 #ifndef _SNAKE_H
@@ -29,7 +30,7 @@ typedef struct Snake {
     SnakeBody * (* tail_to_head)(Snake *);  // returns new head
     SnakeBody * (*new_head)(Snake *, Coord);
     void (* print_head_position)(Snake *);
-    Coord_list * (*coord_list)(Snake *, Coord_list *);
+    //Coord_list * (*coord_list)(Snake *, Coord_list *);
     int (* overlap)(Snake *);
 } Snake;
 

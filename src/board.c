@@ -41,6 +41,7 @@ Board * init_board(int row, int col){
 
     board->reset = &reset_board;
     board->apply_to_grid = &snake_and_food_to_grid;
+    board->write = &write_to_grid;
     board->spawn_food = &spawn_food;
 
     board->display_grid = malloc(sizeof(char *) * row);
@@ -94,13 +95,14 @@ Coord find_empty_cell(Board * board){
         }
     }
 
-    // Retrieves a list of coordinates from the Snake object. Can be more efficient.
-    Coord_list * snake_coords = init_coord_list(board->snake->length);
-    snake_coords = board->snake->coord_list(board->snake, snake_coords);
+    // Iterate over the snake.
+    SnakeBody * body = board->snake->head;
 
     // Setting already existing coords as FALSE.
     for (int i = 0; i < board->snake->length; i++){
-        all_coords[snake_coords->list[i].x][snake_coords->list[i].y] = 0;
+        Coord snake_body = body->position;
+        all_coords[snake_body.x][snake_body.y] = 0;
+        body = body->next;
     }
     
     // Initiating coordinate list of free spaces of which food can be populated on.
@@ -119,7 +121,6 @@ Coord find_empty_cell(Board * board){
     Coord empty_cell = free_spaces->list[random_number];
 
     free(all_coords);
-    free_coord_list(snake_coords);
     free_coord_list(free_spaces);
 
     return empty_cell;
@@ -138,12 +139,12 @@ void write_to_grid(Board * board, Coord coord, char c){
 
 // Applying the characters to the board.
 void snake_and_food_to_grid(Board * board){
-    Coord_list * snake_coords = init_coord_list(board->snake->length);
-    snake_coords = board->snake->coord_list(board->snake, snake_coords);
+    SnakeBody * body = board->snake->head;
 
     // Go through all the snake positions and print them to the board.
-    for (int i = 0; i < snake_coords->length; i++){
-        Coord current = snake_coords->list[i];
+    for (int i = 0; i < board->snake->length; i++){
+        Coord current = body->position;
+        body = body->next;
         write_to_grid(board, current, 'O');
     }
 
@@ -153,7 +154,6 @@ void snake_and_food_to_grid(Board * board){
         write_to_grid(board, board->food, 'X');
     }
 
-    free(snake_coords);
     return;
 }
 
