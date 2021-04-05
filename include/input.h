@@ -1,5 +1,5 @@
-// I/O module
-    /* Module for user input and user output.
+// Input module
+    /* Module for user input.
     */
 // Date: 17/11/2020
 // Author: NZPIEFACE

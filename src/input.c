@@ -13,7 +13,7 @@
 #include <conio.h>
 #include <stdio.h>
 
-#include "io.h"
+#include "input.h"
 
 #define BUFFER_SIZE 16
 

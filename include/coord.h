@@ -12,10 +12,13 @@
     17/11/2020 - Added ORIGIN and ERROR.
                - Changed globals into definitions.
     04/04/2021 - Changed ERROR to COORD_ERROR.
+    05/04/2021 - Added coord2COORD.
 */
 
 #ifndef _COORD_H
 #define _COORD_H
+
+#include <windows.h>
 
 typedef struct Coord {
     int x;
@@ -33,6 +36,8 @@ int coord_in(Coord coord, Coord top_left, Coord bottom_right);
 void print_coord(Coord a);
 Coord coord_bound(Coord a, int row, int col);
 Coord coord_gen(int row, int col);
+
+COORD coord2COORD(Coord coord);
 
 
 Coord_list * init_coord_list(int length);

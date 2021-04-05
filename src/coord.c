@@ -10,6 +10,7 @@
     14/08/2020 - bounded_coords was added.
     09/11/2020 - Added Coord_list functions.
     17/11/2020 - Added ORIGIN and ERROR.
+    05/04/2021 - Added coord2COORD.
 */
 
 #include <stdio.h>
@@ -70,4 +71,11 @@ void free_coord_list(Coord_list * list){
     free(list->list);
     free(list);
     return;
+}
+
+// Transpose the coordinate
+    // X for col, Y for row
+COORD coord2COORD(Coord coord){
+    COORD c = {.X = coord.y, .Y = coord.x};
+    return c;
 }

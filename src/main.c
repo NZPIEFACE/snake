@@ -18,40 +18,33 @@
 
 #include "main.h"
 #include "board.h"
-#include "io.h"
+#include "input.h"
+#include "output.h"
 
-
-int turn_logic(Board * board, char input);
-int update_game(Board * board);
-void init_snake_string(Board * board);
-void wrapper(char c, Coord coord);
-
-#ifdef STRINGOUT
-Board * b;
-char * o;
-#endif
+void init_board_print(Board * board, Queue * q);
+int turn_logic(Board * board, Queue * q, char input);
+int update_game(Board * board, Queue * q);
 
 int main(void){
-
-    input_setup();
-
     clock_t polling_duration = FRAME_DUR;
     clock_t poll_end = clock() + polling_duration;
 
     Board * board = init_board(DEFAULT_ROW, DEFAULT_COL);
+    
+    // Print board here...
+    system("clear");
+    print_fresh_board(board->row, board->col);
+    
+    Queue * q = QueueConstructor();
+    // Add requests for the first food and snake
+    init_board_print(board, q);
 
-#ifdef STRINGOUT
-    char * output_string = initialize_output_string(board->row, board->col);
-
-    b = board;
-    o = output_string;
-
-    init_snake_string(board);
-#endif
+    input_setup();
+    init_output(q);
 
     while(1){
         if (clock() > poll_end){
-            int exit_code = update_game(board);
+            int exit_code = update_game(board, q);
             
             if(exit_code){
                 break;
@@ -61,37 +54,35 @@ int main(void){
         }
     }
 
+    term_output(q);
     input_terminate();
 
+    // Go to the end of the board
+    GoToXY(0, board->row);
     printf("Score: %d\n", board->snake->length - 2); // The score no longer starts at 2.
     printf("Press any key to exit...");
     getch();
 
     free(board);
+    free(q);
+
     return 0;
 }
 
-#ifdef STRINGOUT
-void wrapper(char c, Coord coord){
-    write_to_string(o, c, coord.x, coord.y, b->col);
-}
-
-void init_snake_string(Board * board){
-    Coord_list * snake_coords = init_coord_list(board->snake->length);
-    snake_coords = board->snake->coord_list(board->snake, snake_coords);
-
-    for (int i = 0; i < snake_coords->length; i++){
-        wrapper('O', snake_coords->list[i]);
+// Add the starting requests
+void init_board_print(Board * board, Queue * q){
+    SnakeBody * body = board->snake->head;
+    for (int i = 0; i < board->snake->length; i++){
+        q->add(q, 'O', coord2COORD(body->position));
+        body = body->next;
     }
 
-    wrapper('X', board->food);
-
-    free(snake_coords);
+    q->add(q, 'X', coord2COORD(board->food));
+    
     return;
 }
-#endif
 
-int update_game(Board * board){
+int update_game(Board * board, Queue * q){
     char user_input = 0;
     int return_code = 0;
 
@@ -101,12 +92,8 @@ int update_game(Board * board){
         return 1;
     }
 
-    return_code = turn_logic(board, user_input);
+    return_code = turn_logic(board, q, user_input);
 
-#ifdef STRINGOUT
-    system("clear");
-    printf("%s", o);
-#endif
 
     if(return_code){
         return 1;
@@ -116,7 +103,7 @@ int update_game(Board * board){
 }
 
 
-int turn_logic(Board * board, char input){
+int turn_logic(Board * board, Queue * q, char input){
     static Coord snake_directions[4];
     snake_directions[0] = UP;
     snake_directions[1] = DOWN;
@@ -146,46 +133,37 @@ int turn_logic(Board * board, char input){
     // Does it eat food?
         // Y - New head on food.
     if (coord_eqs(board->snake->next_position(board->snake), board->food)){
-        
+        // Apply new head position.
         board->snake->new_head(board->snake, board->snake->next_position(board->snake));
-#ifdef STRINGOUT
-        wrapper('O', board->snake->head->position);
-#endif
+
+        // Add request for it.
+        q->add(q, 'O', coord2COORD(board->snake->head->position));
 
         // Check if win
         if (board->snake->length >= board->row * board->col){
             return 1;
         } // This is because the spawn_food function fails whenever there is no empty space
 
+        // Spawn food
         board->spawn_food(board);
-#ifdef STRINGOUT
-        wrapper('X', board->food);
-#endif
+
+        // Add request for the food
+        q->add(q, 'X', coord2COORD(board->food));
     }
         // N - Move tail to head.
     else {
         // Clear the previous spot
         Coord tail = board->snake->head->previous->position;
-#ifdef STRINGOUT
-        wrapper(' ', tail);
-#endif
 
-#ifdef BWOUT
-        board->display_grid[tail.x][tail.y] = 0;
-#endif
+        // Add request to clear that position
+        q->add(q, ' ', coord2COORD(tail));
 
+        // New head position
         board->snake->tail_to_head(board->snake);
 
-#ifdef STRINGOUT
-        wrapper('O', board->snake->head->position);
-#endif
+        // Add request for it
+        q->add(q, 'O', coord2COORD(board->snake->head->position));
     }
-
-#ifdef BWOUT
-    // Render
-    board->apply_to_grid(board);
-    bw_render(board->display_grid, board->row, board->col);
-#endif
     
     return 0;
 }
