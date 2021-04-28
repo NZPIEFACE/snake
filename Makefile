@@ -5,7 +5,7 @@ CC = x86_64-w64-mingw32-gcc
 TARGET = snake
 
 _SRCS = main snake board coord input output
-_HEAD = 
+_HEAD = thread
 
 SRC_DIR = src/
 INC_DIR = include/
@@ -26,3 +26,7 @@ $(TARGET).exe: $(_OBJ)
 .PHONY: clean
 clean:
 	$(RM) $(_OBJ) $(TARGET)
+
+.PHONY: debug
+debug:
+	gdb $(TARGET)

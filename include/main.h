@@ -12,8 +12,8 @@
 #ifndef _MAIN_H
 #define _MAIN_H
 
-#define DEFAULT_ROW 15
-#define DEFAULT_COL 15
-#define FRAME_DUR 100
+#define DEFAULT_ROW 20
+#define DEFAULT_COL 20
+#define FRAME_DUR 150
 
 #endif

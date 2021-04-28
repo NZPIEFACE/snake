@@ -9,6 +9,7 @@
     17/11/2020 - Added terminal settings.
     04/04/2021 - Got rid of UNIX stuff, including all of polling.h.
     05/04/2021 - Added update_game() to clear up main().
+    28/04/2021 - Added console_size() to ensure that GoToXY is always within bounds.
 */
 
 #include <windows.h>
@@ -20,12 +21,16 @@
 #include "board.h"
 #include "input.h"
 #include "output.h"
+#include "thread.h"
 
+void console_size(void);
 void init_board_print(Board * board, Queue * q);
 int turn_logic(Board * board, Queue * q, char input);
 int update_game(Board * board, Queue * q);
 
 int main(void){
+    console_size();
+
     clock_t polling_duration = FRAME_DUR;
     clock_t poll_end = clock() + polling_duration;
 
@@ -60,13 +65,54 @@ int main(void){
     // Go to the end of the board
     GoToXY(0, board->row);
     printf("Score: %d\n", board->snake->length - 2); // The score no longer starts at 2.
-    printf("Press any key to exit...\n");
-    getch();
-
+    
     free(board);
     free(q);
 
+    printf("Press any key to exit...\n");
+
+    clock_t start, end;
+
+    while(1){
+        start = clock();
+        getch();
+        end = clock();
+
+        if (end > start + 50){
+            break;
+        }
+    }
+
     return 0;
+}
+
+// Ensure that the console is at the right size
+void console_size(void){
+    HANDLE hStdout;
+    CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+    SMALL_RECT srctWindow;
+
+    hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    printf("Please resize the screen until it is large enough.");
+
+    while(1){
+        if (! GetConsoleScreenBufferInfo(hStdout, &csbiInfo)){
+            printf("GetConsoleScreenBufferInfo (%ld)\n", GetLastError());
+            return;
+        }
+        srctWindow = csbiInfo.srWindow;
+
+        if (srctWindow.Right > DEFAULT_COL && srctWindow.Bottom > DEFAULT_ROW){
+            break;
+        }
+    }
+
+    system("clear");
+    printf("Press any key to start the game.\n");
+    getch();
+
+    return;
 }
 
 // Add the starting requests

@@ -1,13 +1,24 @@
+// Output module
+    /* Module for game output.
+    */
+// Date: 05/04/2021
+// Author: NZPIEFACE
+
+// Changelog:
+/*  28/04/2021 - THREAD object.
+*/
+
 #include <windows.h>
 #include <stdio.h>
 
 #include "output.h"
+#include "thread.h"
+
+HANDLE hConsole;
+THREAD output_thread;
 
 
-int output_thread_active;
-HANDLE output_thread_handle;
-
-DWORD WINAPI output_thread(LPVOID lpParameter);
+DWORD WINAPI output_thread_function(LPVOID lpParameter);
 QueueItem * QIConstructor(char c, COORD coord);
 
 void queue_add_item(Queue * q, QueueItem * qi){
@@ -55,37 +66,37 @@ QueueItem * QIConstructor(char c, COORD coord){
     return qi;
 }
 
+// This is always used
 void GoToXY(int column, int line){
     // Create a COORD structure and fill in its members.
     COORD coord = {.X = column, .Y = line};
 
-    // Obtain a handle to the console screen buffer.
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
     // Finally, call the SetConsoleCursorPosition function.
-    if (!SetConsoleCursorPosition(hConsole, coord))
+    if (!SetConsoleCursorPosition(hConsole, coord)){
+        // Error is happening due to going to places outside of window
         printf("GoToXY() SetConsoleCursorPosition(): %ld\n", GetLastError());
+    }
 }
 
+// This is never used
 void GoToCOORD(COORD coord){
-    // Obtain a handle to the console screen buffer.
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
     // Finally, call the SetConsoleCursorPosition function.
     if (!SetConsoleCursorPosition(hConsole, coord))
         printf("GoToCOORD() SetConsoleCursorPosition(): %ld\n", GetLastError());
 }
 
 void init_output(Queue * queue){
-    output_thread_handle = CreateThread(NULL, 0, output_thread, queue, 0, 0);
-    output_thread_active = 1;
+    output_thread.stop_request = FALSE;
+    output_thread.handle = CreateThread(NULL, 0, output_thread_function, queue, 
+    0, 0);
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 }
 
 void term_output(Queue * q){
-    output_thread_active = 0;
-    while(!output_thread_active && !q->length){}
-    TerminateThread(output_thread_handle, 0);
-    CloseHandle(output_thread_handle);
+    output_thread.stop_request = TRUE;
+    while(output_thread.active == TRUE && !q->length){}
+    TerminateThread(output_thread.handle, 0);
+    CloseHandle(output_thread.handle);
 }
 
 void write_to_output(char ch, int row, int col){
@@ -101,19 +112,19 @@ void complete_request(QueueItem * qi){
     return;
 }
 
-DWORD WINAPI output_thread(LPVOID lpParamater){
+DWORD WINAPI output_thread_function(LPVOID lpParamater){
     Queue * q = (Queue *) lpParamater;
-    output_thread_active = 1;
+    output_thread.active = TRUE;
 
-    while(output_thread_active){
+    while(output_thread.stop_request == FALSE){
         while(q->length != 0){
-            complete_request(q->queue);
+            complete_request(q->queue); // Prints as fast as it can
             q->remove(q);
         }
-        GoToXY(0, 0);
+        GoToXY(0, 0); // Idle position
     }
 
-    output_thread_active = 1;
+    output_thread.active = FALSE;
     return 0;
 }
 

@@ -1,5 +1,5 @@
-// I/O module
-    /* Module for user input and user output.
+// Input module
+    /* Module for user input.
     */
 // Date: 10/11/2020
 // Author: NZPIEFACE
@@ -7,6 +7,7 @@
 // Changelog:
 /*  17/11/2020 - Changed from Input module to IO module. Subsumed render, though will likely replace it later.
     04/04/2021 - Replaced UNIX stuff.
+    28/04/2021 - THREAD object.
 */
 
 #include <windows.h>
@@ -14,23 +15,24 @@
 #include <stdio.h>
 
 #include "input.h"
+#include "thread.h"
 
 #define BUFFER_SIZE 16
 
 
 // Declaration of private functions
 char direction_is(char c, char array[DIRECTIONS]);
-DWORD WINAPI input_thread(LPVOID lpParameter);
+DWORD WINAPI input_thread_function(LPVOID lpParameter);
 
 // Declaration of private variables
 int ch_buffer = 0;
-HANDLE input_handle;
-int loop = 1;
+THREAD input_thread;
+
 
 // Start the input polling
 void input_setup(void){
-    input_handle = CreateThread(0, 0, input_thread, NULL, 0, NULL);
-    loop = 1;
+    input_thread.stop_request = FALSE;
+    input_thread.handle = CreateThread(0, 0, input_thread_function, NULL, 0, NULL);
     return;
 }
 
@@ -61,30 +63,30 @@ void read_ESC(void){
 
 // End the input polling
 void input_terminate(void){
-    loop = 0; // Stop input
+    input_thread.stop_request = TRUE;
 
-    while(!loop){
-        read_ESC();
-        Sleep(1);   // Wait for the loop to end
-    }   // Wait until getch() is actually done before closing thread
 
-    TerminateThread(input_handle, 0);
-    CloseHandle(input_handle);
+    // Wait until getch() is actually done before closing thread
+    while (input_thread.active == TRUE){read_ESC();}
+
+    TerminateThread(input_thread.handle, 0);
+    CloseHandle(input_thread.handle);
 
     return;
 }
 
 // Read to buffer
-DWORD WINAPI input_thread(LPVOID lpParameter){
+DWORD WINAPI input_thread_function(LPVOID lpParameter){
     if (lpParameter != NULL) return -1; // This should never happen
+    input_thread.active = TRUE;
     
     // Loops reading into input forever until thread closes
-    while(loop){
+    while(input_thread.stop_request == FALSE){
         // Adding _kbhit() here slows the output down a lot
         ch_buffer = getch(); // non-canonical
     }
 
-    loop = 1;
+    input_thread.active = FALSE;
 
     return 0;
 }
