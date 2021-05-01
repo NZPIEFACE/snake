@@ -32,9 +32,6 @@ Board * init_board(int row, int col){
     board->size = row * col;
     board->snake = init_snake();
 
-    Coord food = DEFAULT_FOOD;
-    board->food = food;
-
     // Init to NULL, change to something else if not null.
     board->moved_body = NULL;
     board->new_body = NULL;
@@ -54,6 +51,8 @@ Board * init_board(int row, int col){
             board->display_grid[i][j] = 0;
         }
     }
+
+    board->spawn_food(board);
 
     return board;
 }

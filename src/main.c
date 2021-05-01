@@ -29,6 +29,10 @@ int turn_logic(Board * board, Queue * q, char input);
 int update_game(Board * board, Queue * q);
 
 int main(void){
+    // Random seed at game start
+    srand(time(0));
+
+    // Making sure the console is large enough
     console_size();
 
     clock_t polling_duration = FRAME_DUR;
@@ -37,7 +41,7 @@ int main(void){
     Board * board = init_board(DEFAULT_ROW, DEFAULT_COL);
     
     // Print board here...
-    system("clear");
+    system("cls");
     print_fresh_board(board->row, board->col);
     
     Queue * q = QueueConstructor();
@@ -103,12 +107,12 @@ void console_size(void){
         }
         srctWindow = csbiInfo.srWindow;
 
-        if (srctWindow.Right > DEFAULT_COL && srctWindow.Bottom > DEFAULT_ROW){
+        if (srctWindow.Right > DEFAULT_COL*3 && srctWindow.Bottom > DEFAULT_ROW){
             break;
         }
     }
 
-    system("clear");
+    system("cls");
     printf("Press any key to start the game.\n");
     getch();
 
